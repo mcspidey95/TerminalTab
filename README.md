@@ -1,4 +1,5 @@
 # The Terminal Homepage
+![Recording2024-08-05173912-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/3327b089-e220-410d-bed7-18cdb4254ecc)
 
 ## Installation steps:
 1. download the zip file
