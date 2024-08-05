@@ -76,7 +76,10 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
     - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna).
 
 14. **Set the New Tab URL**:
-    - Paste this URL in the extension’s menu: ```http://localhost:8000/index.html```. This is where the magic happens. 🌟
+    - Paste this URL in the extension’s menu. This is where the magic happens. 🌟
+    ```
+    http://localhost:8000/index.html
+    ```
 
 15. **Restart Your Laptop**:
     - Give your laptop a quick restart and voilà! Your terminal-themed homepage awaits. 🚀
