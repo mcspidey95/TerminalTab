@@ -11,7 +11,7 @@ Why settle for Google's vanilla new tab when you can have a homepage that:
 - **Has all the features you need** (unlike Google's "here's a search bar, you're welcome").
 - **Makes you feel like a tech wizard** (move over, Tony Stark).
 
-Say goodbye to boring and hello to a new tab experience that’s fun, functional, and fabulously you!
+Say goodbye to boring old google tab and hello to a new tab experience that’s fun, functional, and fabulously you!
 
 ## Features
 
@@ -19,24 +19,24 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
 - 💻 **Terminal-like Design**: To remind you of those nostalgic coding sessions you definitely dont hate.
 - 🔎 **Quick Search Options**: Choose your preferred search engine and go!
 - 🌟 **Favorite Links**: Access your go-to websites in a jiffy.
-- 😍 **Fidgety Backgrounds**: A Fancy Design to play around to just pass time... if you're bored :)
+- 😍 **Fidgety Backgrounds**: A Background designed to pass time... especially if you're bored :)
 
 ## Instructions (One Time Setup)
 
 ### Windows
 
 1. **Download the ZIP file**:
-   - Click that download button like you mean it! 💪
+   - Click that download button like your life depends on it! 💪
 
 2. **Extract the ZIP file**:
-   - Unzip it like you're opening a treasure chest! 🏴‍☠️
+   - Unzip it like you unzip everything else! 🏴‍☠️
 
 3. **Move the "Startup Page" folder**:
-   - Place it somewhere safe (where you won’t accidentally delete it) - maybe not next to your cat photos. 😉
+   - Place it somewhere safe (where you won’t accidentally delete it) - maybe not next to your gf's pics. 😉
 
 4. **Edit `homepage.bat`**:
    - Right-click on `homepage.bat` and select "Edit in Notepad".
-   - You'll see a blank space at the top. Paste the folder path from Step 3 there, like it’s a VIP guest list. 🎟️
+   - You'll see a blank space at the top. Paste the folder path from Step 3.
    ![Screenshot 2024-08-04 224035](https://github.com/user-attachments/assets/b9cd1c5e-36bf-42c5-8d97-4cd24628b659)
 
 5. **Open Task Scheduler**:
@@ -52,7 +52,7 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
    ![Screenshot 2024-08-05 162048](https://github.com/user-attachments/assets/f3aad8f5-332b-4fec-b2e8-605c1c182aab)
 
 8. **Start a Program**:
-   - In the "Start a Program" tab, browse and select the `homepage.bat` file. It's showtime! 🎬
+   - In the "Start a Program" tab, browse and select the `homepage.bat` file.
    ![Screenshot 2024-08-05 162112](https://github.com/user-attachments/assets/3f649b60-b9da-449e-bcb4-86e810c00d6f)
 
 9. **Finish Setup**:
@@ -60,11 +60,11 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
    ![Screenshot 2024-08-05 162127](https://github.com/user-attachments/assets/cf8dbd9f-61a5-46e5-9099-3c98652bdfe8)
 
 10. **Hide the Task**:
-    - In properties, check the "Hidden" checkbox. This task is your little secret. 🤫
+    - In properties, check the "Hidden" checkbox. It's good to keep secrets. 🤫
     ![Screenshot 2024-08-05 162223](https://github.com/user-attachments/assets/59d15d51-a2a7-405d-82dc-5c2dc1b91e65)
 
 11. **Optional Settings**:
-    - Also check "Run with highest privileges" and "Run whether user is logged on or not". Because sometimes you want to feel like a boss. 👑
+    - Also check "Run with highest privileges" and "Run whether user is logged on or not". The faster the better right?. 🚅
 
 12. **Deselect Conditions and Settings**:
     - In the property menu, deselect a few things under the Conditions and Settings tab. (We’ll add screenshots for this to make it super clear. 📸)
