@@ -90,7 +90,7 @@ Enjoy your new, super cool custom homepage! 🌐
 
 ### Mac
 
-Coming soon 😉
+Get your mom a windows PC 😉 ~Vivek
 
 ## Feedback and Issues
 
