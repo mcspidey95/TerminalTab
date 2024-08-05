@@ -69,8 +69,7 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
 12. **Deselect Conditions and Settings**:
     - In the property menu, deselect a few things under the Conditions and Settings tab. (We’ll add screenshots for this to make it super clear. 📸)
     ![Screenshot 2024-08-05 163137](https://github.com/user-attachments/assets/7e7257c0-0f45-47a3-9f47-37f19c9a164e)
-    ![Screenshot 2024-08-05 163157](https://github.com/user-attachments/assets/88487699-4fbf-49c6-ab70-4298c6c93923)
-
+    ![Screenshot 2024-08-05 163157](https://github.com/user-attachments/assets/3e65965a-e9a6-493c-b571-25ede68db49b)
 
 13. **Install the Extension**:
     - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna).
