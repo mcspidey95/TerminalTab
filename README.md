@@ -47,25 +47,30 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
    - Click "Create Basic Task" on the right. Give it a name that makes you smile.
    - ![Screenshot 2024-08-05 162038](https://github.com/user-attachments/assets/13307e05-dadd-4c56-8811-214744347bc4)
 
-
 7. **Set the Trigger Event**:
    - Choose "When the computer starts". Because why wait, right? 🌅
-   - 
+   - ![Screenshot 2024-08-05 162048](https://github.com/user-attachments/assets/f3aad8f5-332b-4fec-b2e8-605c1c182aab)
 
 8. **Start a Program**:
    - In the "Start a Program" tab, browse and select the `homepage.bat` file. It's showtime! 🎬
+   - ![Screenshot 2024-08-05 162112](https://github.com/user-attachments/assets/3f649b60-b9da-449e-bcb4-86e810c00d6f)
 
 9. **Finish Setup**:
    - Click on the checkbox and hit "Finish". You’re almost there! 🏁
+   ![Screenshot 2024-08-05 162127](https://github.com/user-attachments/assets/cf8dbd9f-61a5-46e5-9099-3c98652bdfe8)
 
 10. **Hide the Task**:
     - In properties, check the "Hidden" checkbox. This task is your little secret. 🤫
+    - ![Screenshot 2024-08-05 162223](https://github.com/user-attachments/assets/59d15d51-a2a7-405d-82dc-5c2dc1b91e65)
 
 11. **Optional Settings**:
     - Also check "Run with highest privileges" and "Run whether user is logged on or not". Because sometimes you want to feel like a boss. 👑
 
 12. **Deselect Conditions and Settings**:
     - In the property menu, deselect a few things under the Conditions and Settings tab. (We’ll add screenshots for this to make it super clear. 📸)
+    - ![Screenshot 2024-08-05 163137](https://github.com/user-attachments/assets/7e7257c0-0f45-47a3-9f47-37f19c9a164e)
+      ![Screenshot 2024-08-05 163157](https://github.com/user-attachments/assets/88487699-4fbf-49c6-ab70-4298c6c93923)
+
 
 13. **Install the Extension**:
     - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna).
