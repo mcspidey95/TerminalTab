@@ -77,9 +77,9 @@ Say goodbye to boring and hello to a new tab experience that’s fun, functional
 
 14. **Set the New Tab URL**:
     - Paste this URL in the extension’s menu. This is where the magic happens. 🌟
-    ```
-    http://localhost:8000/index.html
-    ```
+       ```
+       http://localhost:8000/index.html
+       ```
 
 15. **Restart Your Laptop**:
     - Give your laptop a quick restart and voilà! Your terminal-themed homepage awaits. 🚀
