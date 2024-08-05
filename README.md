@@ -90,7 +90,7 @@ Enjoy your new, super cool custom homepage! 🌐
 
 ### Mac
 
-Coming soon 😉
+"Get your mom a window's pc" - Sir. Cook
 
 ## Feedback and Issues
 
