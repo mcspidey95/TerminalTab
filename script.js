@@ -7,6 +7,7 @@ let color3 = '';
 let colorSearch = '';
 let engine = '';
 let engineUrl = '';
+let searchLength = 0;
 let isSidebarOpen = false;
 let count = 0;
 
@@ -149,6 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if(engine === 'bing') {
           engineUrl = 'https://www.bing.com/search?q=';
+        }
+        if(engine === 'ecosia') {
+          engineUrl = 'https://www.ecosia.org/search?q=';
         }
         if(engine === 'yahoo') {
           engineUrl = 'https://search.yahoo.com/search?p=';
@@ -769,23 +773,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', (e) => {    
+    
     if (e.key === 'Enter' && !isSidebarOpen) {
       e.preventDefault();
       if (search.innerHTML.includes('https://')) {
         window.location.href = search.innerHTML;
-      } else if (search.innerHTML.includes('.')) {
+      } else if (search.innerHTML.includes('.') && !search.innerHTML.includes(' .') && !search.innerHTML.includes('. ')) {
         window.location.href = 'https://' + search.innerHTML;
       } else {
         window.location.href = engineUrl + search.innerHTML.split(' ').join('+');
       }
+    } else if (getComputedStyle(search).getPropertyValue('--highlight') === color3 && e.key === 'Backspace' && !isSidebarOpen) {
+      document.getElementById('search').innerHTML = '';
     } else if (e.key === 'Backspace' && !isSidebarOpen) {
       e.preventDefault();
       document.getElementById('search').innerHTML = document.getElementById('search').innerHTML.slice(0, -1);
     } else if (e.shiftKey && e.key.length === 1 && !isSidebarOpen) {
       document.getElementById('search').innerHTML += e.key.toUpperCase();
+    } else if (e.ctrlKey && e.key === 'a' && !isSidebarOpen){
+      e.preventDefault();
+      search.style.setProperty('--highlight', color3);
+      searchLength = search.innerHTML.length;
+    } else if (e.ctrlKey && e.key === 'c' && !isSidebarOpen){
+      e.preventDefault();
+      navigator.clipboard.writeText(search.innerHTML);
+    } else if ((e.ctrlKey || e.altKey || e.metaKey) && !isSidebarOpen) {
+      document.getElementById('search').innerHTML += '';
     } else if (e.key.length === 1 && !isSidebarOpen) {
       document.getElementById('search').innerHTML += e.key;
+    }
+
+    if(searchLength != search.innerHTML.length && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen)
+    {
+      search.style.removeProperty('--highlight');
+      document.getElementById('search').innerHTML = '';
+      if (e.key.length === 1 && !isSidebarOpen) {
+        document.getElementById('search').innerHTML += e.key;
+      }
     }
   });
 

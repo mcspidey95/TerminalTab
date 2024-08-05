@@ -188,6 +188,7 @@ html {
 
   #search{
     color: #b5bd68;
+    background-color: var(--highlight);
   }
 
   p #cursor {
