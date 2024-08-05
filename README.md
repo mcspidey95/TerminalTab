@@ -1,6 +1,6 @@
 # 🔥 TerminalTab - Make Your New Tab Awesome! 🚀
 
-![preview](https://github.com/user-attachments/assets/7f22bc09-0935-4aa8-a6e1-8140a3d0603c)
+![TerminalTab](https://github.com/user-attachments/assets/5d5ffed3-47d4-4f4f-84d4-8c049a5d52b6)
 
 ## Description
 
