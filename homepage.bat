@@ -1,2 +1,0 @@
-cd "PASTE FOLDER PATH HEREEEEEEEEEEEEEEE"
-python -m http.server 8000
