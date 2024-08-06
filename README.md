@@ -26,64 +26,22 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 ### Windows
 
 0.  **PREREQUISITES**:
-    - Install Python from the Microsoft Store: [Python 3.12](https://www.microsoft.com/store/productId/9NCVDN91XZQP?ocid=pdpshare).
+    - Install Python from the Microsoft Store: [Python 3.12](https://www.microsoft.com/store/productId/9NCVDN91XZQP?ocid=pdpshare). Don't come and complain that it doesnt work later.. Install it now 🧑‍💻
 
-1. **Download the ZIP file**:
-   - Click that download button like your life depends on it! 💪
+1. **Install the Extension**:
+    - Pick any one Setup.. based on your mood 🥰
 
-2. **Extract the ZIP file**:
-   - Unzip it like you unzip everything else! 🏴‍☠️
+2. **Install the Extension**:
+    - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna). (Because your browser is useless 🍇)
+    - If you have firefox, use this: [New Tab Override](https://addons.mozilla.org/en-US/firefox/addon/new-tab-override/). (This browser is even more useless 💅)
 
-3. **Move the "Startup Page" folder**:
-   - Place it somewhere safe (where you won’t accidentally delete it) - maybe not next to your gf's pics. 😉
-
-4. **Edit `homepage.bat`**:
-   - Right-click on `homepage.bat` and select "Edit in Notepad".
-   - You'll see a blank space at the top. Paste the folder path from Step 3.
-   ![Screenshot 2024-08-04 224035](https://github.com/user-attachments/assets/b9cd1c5e-36bf-42c5-8d97-4cd24628b659)
-
-5. **Open Task Scheduler**:
-   - Hit the Start button and search for "Task Scheduler". This is where the magic happens. 🧙‍♂️
-   ![Screenshot 2024-08-05 161956](https://github.com/user-attachments/assets/2f8fb824-762d-4bde-8eaa-f0875b17dec7)
-
-6. **Create a Basic Task**:
-   - Click "Create Basic Task" on the right. Give it a name that makes you smile.
-   ![Screenshot 2024-08-05 162038](https://github.com/user-attachments/assets/13307e05-dadd-4c56-8811-214744347bc4)
-
-7. **Set the Trigger Event**:
-   - Choose "When the computer starts". Because why wait, right? 🌅
-   ![Screenshot 2024-08-05 162048](https://github.com/user-attachments/assets/f3aad8f5-332b-4fec-b2e8-605c1c182aab)
-
-8. **Start a Program**:
-   - In the "Start a Program" tab, browse and select the `homepage.bat` file.
-   ![Screenshot 2024-08-05 162112](https://github.com/user-attachments/assets/3f649b60-b9da-449e-bcb4-86e810c00d6f)
-
-9. **Finish Setup**:
-   - Click on the checkbox and hit "Finish". You’re almost there! 🏁
-   ![Screenshot 2024-08-05 162127](https://github.com/user-attachments/assets/cf8dbd9f-61a5-46e5-9099-3c98652bdfe8)
-
-10. **Hide the Task**:
-    - In properties, check the "Hidden" checkbox. It's good to keep secrets. 🤫
-    ![Screenshot 2024-08-05 162223](https://github.com/user-attachments/assets/59d15d51-a2a7-405d-82dc-5c2dc1b91e65)
-
-11. **Optional Settings**:
-    - Also check "Run with highest privileges" and "Run whether user is logged on or not". The faster the better right?. 🚅
-
-12. **Deselect Conditions and Settings**:
-    - In the property menu, deselect a few things under the Conditions and Settings tab. (We’ll add screenshots for this to make it super clear. 📸)
-    ![Screenshot 2024-08-05 163137](https://github.com/user-attachments/assets/7e7257c0-0f45-47a3-9f47-37f19c9a164e)
-    ![Screenshot 2024-08-05 163157](https://github.com/user-attachments/assets/3e65965a-e9a6-493c-b571-25ede68db49b)
-
-13. **Install the Extension**:
-    - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna).
-
-14. **Set the New Tab URL**:
+3. **Set the New Tab URL**:
     - Paste this URL in the extension’s menu. This is where the magic happens. 🌟
        ```
        http://localhost:8000/index.html
        ```
 
-15. **Restart Your Laptop**:
+4. **Restart Your Laptop**:
     - Give your laptop a quick restart and voilà! Your terminal-themed homepage awaits. 🚀
 
 And there you have it! Your new tab page is ready to dazzle and delight. If any step seems tricky, don’t worry - we’ll have screenshots to guide you through! 📷
