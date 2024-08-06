@@ -25,6 +25,9 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 
 ### Windows
 
+0.  **PREREQUISITES**:
+    - Install Python from the Microsoft Store: [Python 3.12](https://www.microsoft.com/store/productId/9NCVDN91XZQP?ocid=pdpshare).
+
 1. **Download the ZIP file**:
    - Click that download button like your life depends on it! 💪
 
