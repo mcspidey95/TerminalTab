@@ -306,3 +306,28 @@ html {
 #save:hover {
   background-color: var(--save-hover);
 }
+
+#notification {
+  position: fixed;
+  bottom: -60px;
+  left: 20px;
+  background-color: #1d1f21;
+  font-size: 15px;
+  color: #c5c8c6;
+  padding: 1em 1em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 6px #1d1f2187;
+  z-index: 3;
+  transition: bottom 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+#notification.show {
+  bottom: 20px;
+  opacity: 1;
+}
+
+#notification.hide {
+  bottom: -60px;
+  opacity: 0;
+}

@@ -371,6 +371,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.classList.add('show');
+    notification.classList.remove('hide');
+
+    notification.style.color = color3;
+
+    setTimeout(() => {
+      notification.classList.add('hide');
+      notification.classList.remove('show');
+    }, 2000);
+  }
+
 
   document.getElementById('gmail').addEventListener('mouseenter', () => {
     iconGrids.forEach(iconGrid => {
@@ -795,9 +809,10 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       search.style.setProperty('--highlight', color3);
       searchLength = search.innerHTML.length;
-    } else if (e.ctrlKey && e.key === 'c' && !isSidebarOpen){
+    } else if (e.ctrlKey && e.key === 'c' && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen){
       e.preventDefault();
       navigator.clipboard.writeText(search.innerHTML);
+      showNotification('Copied to clipboard!');
     } else if ((e.ctrlKey || e.altKey || e.metaKey) && !isSidebarOpen) {
       document.getElementById('search').innerHTML += '';
     } else if (e.key.length === 1 && !isSidebarOpen) {
