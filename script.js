@@ -314,6 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
   cursor.style.color = colorSearch;
   cursor.style.backgroundColor = colorSearch;
 
+  document.documentElement.style.setProperty('--mouseHighlight', color3);
+
   document.querySelectorAll('li > a').forEach(a => {
     a.addEventListener('mouseover', function() {
         const randomTilt = (Math.random() > 0.5 ? 1 : -1) * Math.floor(Math.random() * 3); // Random tilt 
@@ -371,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function showNotification(message) {
+  function showNotification(message, timeOut) {
     const notification = document.getElementById('notification');
     notification.textContent = message;
     notification.classList.add('show');
@@ -382,8 +384,37 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       notification.classList.add('hide');
       notification.classList.remove('show');
-    }, 2000);
+    }, timeOut);
   }
+
+  async function checkForUpdates() {
+    const newFile = await fetch('https://raw.githubusercontent.com/mcspidey95/TerminalTab/main/updater.txt');
+    const currentFile = await fetch('updater.txt');
+    
+    const newText = await newFile.text();
+    const newVer = newText.split('\n');
+
+    const oldText = await currentFile.text();
+    const oldVer = oldText.split('\n');
+
+    if(newVer[0] !== oldVer[0]){
+      showNotification('New version available!', 5000);
+
+      notification.style.cursor = "pointer";
+
+      notification.addEventListener("click", () => {
+        window.location = 'https://github.com/mcspidey95/TerminalTab/releases/latest';
+      });
+
+      notification.addEventListener("mouseenter", () => {
+        notification.style.scale = "1.05";
+      });
+      notification.addEventListener("mouseleave", () => {
+        notification.style.scale = "1";
+      });
+    }
+  }
+  checkForUpdates();
 
 
   document.getElementById('gmail').addEventListener('mouseenter', () => {
@@ -812,9 +843,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (e.ctrlKey && e.key === 'c' && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen){
       e.preventDefault();
       navigator.clipboard.writeText(search.innerHTML);
-      showNotification('Copied to clipboard!');
+      showNotification('Copied to clipboard!', 3000);
+    } else if (e.ctrlKey && e.key === 'c' && !isSidebarOpen){
+      showNotification('Copied to clipboard!', 3000);
     } else if ((e.ctrlKey || e.altKey || e.metaKey) && !isSidebarOpen) {
-      document.getElementById('search').innerHTML += '';
+      
     } else if (e.key.length === 1 && !isSidebarOpen) {
       document.getElementById('search').innerHTML += e.key;
     }
