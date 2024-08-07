@@ -8,6 +8,7 @@ let colorSearch = '';
 let engine = '';
 let engineUrl = '';
 let searchLength = 0;
+let searchValue = '';
 let isSidebarOpen = false;
 let count = 0;
 
@@ -822,53 +823,67 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (e.key === 'Enter' && !isSidebarOpen) {
       e.preventDefault();
-      if (search.innerHTML.includes('https://')) {
-        window.location.href = search.innerHTML;
-      } else if (search.innerHTML.includes('.') && !search.innerHTML.includes(' .') && !search.innerHTML.includes('. ')) {
-        window.location.href = 'https://' + search.innerHTML;
+      if (searchValue.includes('https://')) {
+        window.location.href = searchValue;
+      } else if (searchValue.includes('.') && !searchValue.includes(' .') && !searchValue.includes('. ')) {
+        window.location.href = 'https://' + searchValue;
       } else {
-        window.location.href = engineUrl + search.innerHTML.split(' ').join('+');
+        window.location.href = engineUrl + searchValue.split(' ').join('+');
       }
     } else if (getComputedStyle(search).getPropertyValue('--highlight') === color3 && e.key === 'Backspace' && !isSidebarOpen) {
-      document.getElementById('search').innerHTML = '';
+      searchValue = '';
     } else if (e.key === 'Backspace' && !isSidebarOpen) {
       e.preventDefault();
-      document.getElementById('search').innerHTML = document.getElementById('search').innerHTML.slice(0, -1);
+      searchValue = searchValue.slice(0, -1);
     } else if (e.shiftKey && e.key.length === 1 && !isSidebarOpen) {
-      document.getElementById('search').innerHTML += e.key.toUpperCase();
+      searchValue += e.key.toUpperCase();
     } else if (e.ctrlKey && e.key === 'a' && !isSidebarOpen){
       e.preventDefault();
       search.style.setProperty('--highlight', color3);
-      searchLength = search.innerHTML.length;
+      searchLength = searchValue.length;
     } else if (e.ctrlKey && e.key === 'c' && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen){
       e.preventDefault();
-      navigator.clipboard.writeText(search.innerHTML);
+      navigator.clipboard.writeText(searchValue);
       showNotification('Copied to clipboard!', 3000);
     } else if (e.ctrlKey && e.key === 'c' && !isSidebarOpen){
       showNotification('Copied to clipboard!', 3000);
     } else if ((e.ctrlKey || e.altKey || e.metaKey) && !isSidebarOpen) {
       
     } else if (e.key.length === 1 && !isSidebarOpen) {
-      document.getElementById('search').innerHTML += e.key;
+      searchValue += e.key;
     }
 
-    if(searchLength != search.innerHTML.length && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen)
+    if(searchLength != searchValue.length && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen)
     {
       search.style.removeProperty('--highlight');
-      document.getElementById('search').innerHTML = '';
+      searchValue = '';
       if (e.key.length === 1 && !isSidebarOpen) {
-        document.getElementById('search').innerHTML += e.key;
+        searchValue += e.key;
       }
     }
+
+    if(searchValue.length <= 52)
+    {
+      search.innerHTML = searchValue;
+    } else search.innerHTML = searchValue.slice(-52);
+  });
+
+  document.addEventListener('click', (e) => {
+    search.style.removeProperty('--highlight');
   });
 
   document.addEventListener('paste', function(e) {
     if(!isSidebarOpen) {
       e.preventDefault();
       navigator.clipboard.readText().then(function(paste) {
-        document.getElementById('search').innerHTML = paste;
+        searchValue += paste;
+
+        if(searchValue.length <= 52)
+        {
+          search.innerHTML = searchValue;
+        } else search.innerHTML = searchValue.slice(-52);
       }).catch(function(error) {
-        document.getElementById('search').innerHTML += "";
+        searchValue += "";
       });
     }
   });
