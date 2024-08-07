@@ -876,7 +876,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!isSidebarOpen) {
       e.preventDefault();
       navigator.clipboard.readText().then(function(paste) {
-        searchValue += paste;
+        if(getComputedStyle(search).getPropertyValue('--highlight') === color3)
+        {
+          searchValue = paste;
+          search.style.removeProperty('--highlight');
+        } else{
+          searchValue += paste;
+        }
+        
 
         if(searchValue.length <= 52)
         {
