@@ -43,6 +43,7 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 
 4. **Restart Your Laptop**:
     - Give your laptop a quick restart and voilà! Your terminal-themed homepage awaits. 🚀
+    - Press `Ctrl + f5` after updates to clear cache. (Ctrl + fn + f5 if that doesnt work) 💅
 
 And there you have it! Your new tab page is ready to dazzle and delight. If any step seems tricky, don’t worry - we’ll have screenshots to guide you through! 📷
 
