@@ -11,10 +11,12 @@ let searchLength = 0;
 let searchValue = '';
 let isSidebarOpen = false;
 let count = 0;
+let splitCount = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
   
   var search = document.getElementById('search');
+  var search2 = document.getElementById('search2');
   const cursor = document.getElementById('cursor')
   const numberOfIcons = 100; // Adjust the number of icons
   const iconSpacing = 50;
@@ -165,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
           engineUrl = 'https://duckduckgo.com/?q=';
         }
         if(engine === 'internet archive') {
-          engineUrl = 'https://archive.org/advancedsearch.php?q=';
+          engineUrl = 'https://archive.org/search.php?q=';
         }
         if(engine === 'brave') {
           engineUrl = 'https://search.brave.com/search?q=';
@@ -214,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const obj = Object.fromEntries(fd);
 
     const json = JSON.stringify(obj);
-    console.log(json);
     localStorage.setItem('settings', json);
 
     sidebar.classList.toggle('open');
@@ -223,9 +224,31 @@ document.addEventListener('DOMContentLoaded', () => {
     //localStorage.clear();
 
     setTimeout(() => {
-      location.reload();
+      location.reload(true);
     }, 500);
   });
+
+
+  function getBrowser() {
+    const userAgent = navigator.userAgent;
+
+    if (navigator.brave !== undefined) {
+        return "Brave";
+    } else if (userAgent.indexOf("DuckDuckGo") > -1) {
+        return "Duck";
+    } else if (userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Edg") == -1 && userAgent.indexOf("OPR") == -1) {
+        return "Chrome";
+    } else if (userAgent.indexOf("Firefox") > -1) {
+        return "Firefox";
+    } else if (userAgent.indexOf("Edg") > -1) {
+        return "Edge";
+    } else if (userAgent.indexOf("OPR") > -1 || userAgent.indexOf("Opera") > -1) {
+        return "Opera";
+    } else {
+        return "Unknown";
+    }
+  }
+  fetch(`/browser-info?browser=${getBrowser()}`)
 
   menuToggle.addEventListener('click', () => {
     
@@ -233,14 +256,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(count%2 === 0) {
       isSidebarOpen = false;
+
+      const fd = new FormData(form);
+      const obj = Object.fromEntries(fd);
+  
+      const json = JSON.stringify(obj);
+      localStorage.setItem('settings', json);
+  
+      setTimeout(() => {
+        location.reload(true);
+      }, 500);
     }
     else {
       isSidebarOpen = true;
+
+      async function getStats(){
+        while(isSidebarOpen){
+          const getUsage = await fetch('./scripts/taskManager/browser_usage.txt');
+  
+          const usageFile = await getUsage.text();
+          const usage = usageFile.split('\n');
+
+          document.getElementById('CPU').innerHTML = usage[1];
+          document.getElementById('RAM').innerHTML = usage[2];
+
+          setTimeout(1141);
+        }
+      }
+
+      getStats();
     }
 
     sidebar.classList.toggle('open');
     container.classList.toggle('move');
   });
+
+  menuToggle.addEventListener('mouseenter', () => {
+    fetch(`/browser-info?browser=${getBrowser()}`)
+  });
+
+
+
+
 
   window.addEventListener('offline', () => {
     fetchSvgDataUrl('./icons/no-wifi.svg', color2).then(dataUrl => {
@@ -312,10 +369,12 @@ document.addEventListener('DOMContentLoaded', () => {
   username_.style.color = colorSearch;
   username__.style.color = colorSearch;
   search.style.color = colorSearch;
+  search2.style.color = colorSearch;
   cursor.style.color = colorSearch;
   cursor.style.backgroundColor = colorSearch;
 
   document.documentElement.style.setProperty('--mouseHighlight', color3);
+  document.getElementById('system-stats').style.setProperty('--stats', color1);
 
   document.querySelectorAll('li > a').forEach(a => {
     a.addEventListener('mouseover', function() {
@@ -817,16 +876,175 @@ document.addEventListener('DOMContentLoaded', () => {
     wrapper.style.opacity = 0;
   });
 
+  
 
 
-  document.addEventListener('keydown', (e) => {    
+  document.getElementById("whatsapp").addEventListener("click", async function(event) {
+    event.preventDefault();
+
+    const getStatus = await fetch('status.txt');
     
+    const statusFile = await getStatus.text();
+    const status =statusFile.split('\n');
+
+    if(status[0].substring(0,4) === 'True') {
+      window.location = 'whatsapp://';
+      location.reload(true);
+    }
+    else {
+      window.location.href = event.target.href;
+    }
+  });
+
+
+  document.getElementById("discord").addEventListener("click", async function(event) {
+    event.preventDefault();
+
+    const getStatus = await fetch('status.txt');
+    
+    const statusFile = await getStatus.text();
+    const status =statusFile.split('\n');
+
+    if(status[1].substring(0,4) === 'True') {
+      window.location = 'discord://';
+      location.reload(true);
+    }
+    else {
+      window.location.href = event.target.href;
+    }
+  });
+
+
+  document.getElementById("teams").addEventListener("click", async function(event) {
+    event.preventDefault();
+
+    const getStatus = await fetch('status.txt');
+    
+    const statusFile = await getStatus.text();
+    const status =statusFile.split('\n');
+
+    if(status[2].substring(0,4) === 'True') {
+      window.location = 'msteams://';
+      location.reload(true);
+    }
+    else {
+      window.location.href = event.target.href;
+    }
+  });
+
+
+  document.getElementById("stremio").addEventListener("click", async function(event) {
+    event.preventDefault();
+
+    const getStatus = await fetch('status.txt');
+    
+    const statusFile = await getStatus.text();
+    const status =statusFile.split('\n');
+
+    if(status[3].substring(0,4) === 'True') {
+      window.location = 'stremio:///board';
+      location.reload(true);
+    }
+    else {
+      window.location.href = event.target.href;
+    }
+  });
+
+
+
+  
+
+  document.getElementById('quick_search').addEventListener('mouseenter', () => {
+    if(document.getElementById('quick_search').innerHTML === ' newtab') {
+      document.getElementById('quick_search').innerHTML = ' youtube?';
+    }
+    else if(document.getElementById('quick_search').innerHTML === ' youtube 📺') {
+      document.getElementById('quick_search').innerHTML = ' newtab?';
+    }
+  });
+  document.getElementById('quick_search').addEventListener('mouseleave', () => {
+    if(document.getElementById('quick_search').innerHTML === ' youtube?') {
+      document.getElementById('quick_search').innerHTML = ' newtab';
+    }
+    else if(document.getElementById('quick_search').innerHTML === ' newtab?') {
+      document.getElementById('quick_search').innerHTML = ' youtube 📺';
+    }
+  });
+  document.getElementById('quick_search').addEventListener('click', () => {
+    if(document.getElementById('quick_search').innerHTML === ' youtube?') {
+      document.getElementById('quick_search').innerHTML = ' youtube 📺';
+      username__.innerHTML = user + '@yt &gt;';
+    }
+    else if(document.getElementById('quick_search').innerHTML === ' newtab?') {
+      document.getElementById('quick_search').innerHTML = ' newtab';
+      username__.innerHTML = user + '@home &gt;';
+    }
+  });
+
+  async function executeScript(command, vbscriptPath, flag) {
+    fetch(command, { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify({ vbscriptPath: vbscriptPath }) })
+    let exitStatus = '0';
+    let message = '';
+    searchValue = '';
+
+    setTimeout(1000);
+
+    if(flag) {
+      while(exitStatus != '1') {
+        const getStatus = await fetch('./scripts/scriptStatus.txt');
+  
+        const statusFile = await getStatus.text();
+        const status = statusFile.split('\n');
+        
+        exitStatus = status[1].substring(0,1);
+  
+        if(message != status[0]) {
+          message = status[0];
+          showNotification(message, 2000);
+        }
+      }
+    }
+  }
+
+  document.getElementById('system-stats').addEventListener("click", () => {
+    executeScript('/scripts', './scripts/taskManager/manager.vbs', false);
+  });
+
+
+
+
+
+  document.addEventListener('keydown', (e) => {
+
     if (e.key === 'Enter' && !isSidebarOpen) {
       e.preventDefault();
       if (searchValue.includes('https://')) {
         window.location.href = searchValue;
       } else if (searchValue.includes('.') && !searchValue.includes(' .') && !searchValue.includes('. ')) {
         window.location.href = 'https://' + searchValue;
+      } else if(searchValue === '/shizuku') {
+        executeScript('/scripts', './scripts/shizuku/shizuku.vbs', true);
+      } else if(searchValue.startsWith('/cmd')) {
+        let command = 'cmd';
+
+        if(searchValue.length > 3){
+          command = searchValue.substring(4);
+        }
+
+        fetch(`/cmd?command=${command}`)
+        setTimeout(500);
+        executeScript('/scripts', './scripts/cmd.vbs', false);
+      }
+      
+      
+      
+      
+      
+      
+      
+      
+      else if(document.getElementById('quick_search').innerHTML === ' youtube 📺'){
+        window.location.href = 'https://www.youtube.com/results?search_query=' + searchValue.split(' ').join('+');
       } else {
         window.location.href = engineUrl + searchValue.split(' ').join('+');
       }
@@ -834,12 +1052,13 @@ document.addEventListener('DOMContentLoaded', () => {
       searchValue = '';
     } else if (e.key === 'Backspace' && !isSidebarOpen) {
       e.preventDefault();
-      searchValue = searchValue.slice(0, -1);
+      searchValue = searchValue.slice(0, searchValue.length - splitCount).slice(0, -1) + searchValue.slice(searchValue.length - splitCount);
     } else if (e.shiftKey && e.key.length === 1 && !isSidebarOpen) {
-      searchValue += e.key.toUpperCase();
+      searchValue = searchValue.slice(0, searchValue.length - splitCount) + e.key.toUpperCase() + searchValue.slice(searchValue.length - splitCount);
     } else if (e.ctrlKey && e.key === 'a' && !isSidebarOpen){
       e.preventDefault();
       search.style.setProperty('--highlight', color3);
+      search2.style.setProperty('--highlight', color3);
       searchLength = searchValue.length;
     } else if (e.ctrlKey && e.key === 'c' && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen){
       e.preventDefault();
@@ -848,28 +1067,56 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (e.ctrlKey && e.key === 'c' && !isSidebarOpen){
       showNotification('Copied to clipboard!', 3000);
     } else if ((e.ctrlKey || e.altKey || e.metaKey) && !isSidebarOpen) {
-      
+
     } else if (e.key.length === 1 && !isSidebarOpen) {
-      searchValue += e.key;
+      searchValue = searchValue.slice(0, searchValue.length - splitCount) + e.key + searchValue.slice(searchValue.length - splitCount);
     }
 
     if(searchLength != searchValue.length && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen)
     {
       search.style.removeProperty('--highlight');
+      search2.style.removeProperty('--highlight');
       searchValue = '';
+      splitCount = 0;
       if (e.key.length === 1 && !isSidebarOpen) {
         searchValue += e.key;
       }
     }
 
-    if(searchValue.length <= 52)
-    {
-      search.innerHTML = searchValue;
-    } else search.innerHTML = searchValue.slice(-52);
+    if(e.key === 'ArrowLeft' && !isSidebarOpen) {
+      e.preventDefault();
+      if(splitCount < searchValue.length)
+      {
+        splitCount++;
+      }
+    } else if (e.key === 'ArrowRight' && !isSidebarOpen) {
+      if(splitCount > 0)
+      {
+         splitCount--;
+      }
+    }
+
+    updateSearch(e);
   });
 
   document.addEventListener('click', (e) => {
     search.style.removeProperty('--highlight');
+    search2.style.removeProperty('--highlight');
+
+    if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && isSidebarOpen) {
+      sidebar.classList.remove('open');
+      container.classList.remove('move');
+
+      const fd = new FormData(form);
+      const obj = Object.fromEntries(fd);
+  
+      const json = JSON.stringify(obj);
+      localStorage.setItem('settings', json);
+  
+      setTimeout(() => {
+        location.reload(true);
+      }, 500);
+    }
   });
 
   document.addEventListener('paste', function(e) {
@@ -879,19 +1126,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if(getComputedStyle(search).getPropertyValue('--highlight') === color3)
         {
           searchValue = paste;
+          updateSearch(e);
           search.style.removeProperty('--highlight');
+          search2.style.removeProperty('--highlight');
         } else{
-          searchValue += paste;
+          searchValue = searchValue.slice(0, searchValue.length - splitCount) + paste + searchValue.slice(searchValue.length - splitCount);
+          updateSearch(e);
         }
-        
-
-        if(searchValue.length <= 52)
-        {
-          search.innerHTML = searchValue;
-        } else search.innerHTML = searchValue.slice(-52);
       }).catch(function(error) {
         searchValue += "";
+        updateSearch(e);
       });
     }
   });
+
+  function updateSearch(e) {
+    if(searchValue.length <= 52 && !e.ctrlKey)
+    {
+      search.innerHTML = searchValue.slice(0, searchValue.length - splitCount);
+      search2.innerHTML = searchValue.slice(searchValue.length - splitCount);
+    } else if(searchValue.length > 52 && !e.ctrlKey) {
+      if(search.innerHTML.length < 52){
+        search.innerHTML = searchValue.slice(0, searchValue.length - splitCount);
+        search2.innerHTML = searchValue.slice(searchValue.length - splitCount).slice(0, 52 - search.innerHTML.length);
+      }
+      else{
+        search.innerHTML = searchValue.slice(0, searchValue.length - splitCount).slice(-52);
+        search2.innerHTML = searchValue.slice(searchValue.length - splitCount).slice(0, 52 - search.innerHTML.length);
+      }
+    }
+  }
 });

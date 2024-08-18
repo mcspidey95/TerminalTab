@@ -1,1 +1,9 @@
 test.html
+**/node_modules/
+*.json
+*.exe
+*.dll
+*.conf
+*.properties
+NOTICE.txt
+browser_usage.txt

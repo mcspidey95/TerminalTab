@@ -15,7 +15,7 @@
 html {
     align-items: center;
     background-color: black;
-    background-image: linear-gradient(to bottom right, #141414, #141414);
+    background-image: linear-gradient(to bottom right, #0f1011, #0f1011);
     color: #c5c8c6;
     overflow: hidden;
     display: flex;
@@ -89,8 +89,8 @@ html {
     cursor: default;
   }
 
-  p span {
-    color: #b5bd68;
+  #quick_search:hover{
+    color: #ffc067;
   }
 
   a {
@@ -191,6 +191,11 @@ html {
   }
 
   #search{
+    color: #b5bd68;
+    background-color: var(--highlight);
+  }
+
+  #search2{
     color: #b5bd68;
     background-color: var(--highlight);
   }
@@ -336,4 +341,25 @@ html {
 #notification.hide {
   bottom: -60px;
   opacity: 0;
+}
+
+#system-stats {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  margin-left: 140px;
+  margin-top: 15px;
+  color: var(--stats);
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 3;
+}
+
+#CPU{
+  padding-right: 10px;
+}
+
+
+#system-stats:hover {
+  opacity: 0.7;
 }
