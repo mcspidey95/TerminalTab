@@ -6,6 +6,11 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 
 shell.CurrentDirectory = "./scripts/shizuku"
 
+Set outputFile = fso.CreateTextFile("../scriptStatus.txt", True)
+outputFile.WriteLine("Searching for Device...")
+outputFile.WriteLine("0")
+outputFile.Close
+
 Set exec = shell.Exec("cmd /c adb devices")
 output = exec.StdOut.ReadAll
 

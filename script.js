@@ -1060,16 +1060,7 @@ document.addEventListener('DOMContentLoaded', () => {
         executeScript('/scripts', './scripts/reload.vbs', false);
       } else if(searchValue === '/clean') {
         executeScript('/scripts', './scripts/cleaning/clear.vbs', true);
-      }
-      
-      
-      
-      
-      
-      
-      
-      
-      else if(document.getElementById('quick_search').innerHTML === ' youtube 📺'){
+      } else if(document.getElementById('quick_search').innerHTML === ' youtube 📺'){
         window.location.href = 'https://www.youtube.com/results?search_query=' + searchValue.split(' ').join('+');
       } else {
         window.location.href = engineUrl + searchValue.split(' ').join('+');
@@ -1137,14 +1128,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const obj = Object.fromEntries(fd);
   
       const json = JSON.stringify(obj);
-      if(localStorage.getItem('settings') != json){
-        localStorage.setItem('settings', json);
+      localStorage.setItem('settings', json);
 
-        setTimeout(() => {
-          location.reload(true);
-        }, 500);
-      }
-      count++;
+      setTimeout(() => {
+        location.reload(true);
+      }, 300);
     }
   });
 
