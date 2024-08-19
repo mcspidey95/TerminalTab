@@ -1,14 +1,13 @@
-' Check for administrative privileges
-If Not WScript.Arguments.Named.Exists("elevated") Then
-    CreateObject("Shell.Application").ShellExecute "wscript.exe", Chr(34) & WScript.ScriptFullName & Chr(34) & " /elevated", "", "runas", 1
-    WScript.Quit
-End If
-
-' Create FileSystemObject and Shell object
 Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objShell = CreateObject("WScript.Shell")
 
-' Get the user profile path
+Set outputFile = objFSO.CreateTextFile("./scripts/scriptStatus.txt", True)
+outputFile.WriteLine("Cleaning Cache...")
+outputFile.WriteLine("0")
+outputFile.Close
+
+WScript.Sleep 3000
+
 userProfilePath = objShell.ExpandEnvironmentStrings("%USERPROFILE%")
 
 Sub DeleteContentsInFolder(folderPath)
@@ -35,18 +34,30 @@ DeleteContentsInFolder(userProfilePath & "\AppData\Local\Temp")
 DeleteContentsInFolder("C:\Windows\Prefetch")
 DeleteContentsInFolder("C:\Windows\SoftwareDistribution")
 DeleteContentsInFolder("C:\Windows\WinSxS\Temp")
-DeleteContentsInFolder(userProfilePath & "\AppData\Local\Google\Chrome\User Data\Default\Cache")
-DeleteContentsInFolder(userProfilePath & "\AppData\Local\Microsoft\Edge\User Data\Default\Cache")
-DeleteContentsInFolder(userProfilePath & "\AppData\Local\Mozilla\Firefox\Profiles")
 DeleteContentsInFolder("C:\ProgramData\Microsoft\Windows\WER")
 DeleteContentsInFolder(userProfilePath & "\AppData\Local\Microsoft\Windows\WER")
 
 objShell.Run "cmd.exe /c PowerShell.exe -NoProfile -Command ""Clear-RecycleBin -Confirm:$false""", 0, True
 
-'objshell.Run "powershell.exe -ExecutionPolicy Bypass -File ""./scripts/memoryGone.ps1""", 0, True
+Set outputFile = objFSO.CreateTextFile("./scripts/scriptStatus.txt", True)
+outputFile.WriteLine("Cleaning Memory...")
+outputFile.WriteLine("0")
+outputFile.Close
+
+WScript.Sleep 3000
 
 currentDirectory = objFSO.GetParentFolderName(WScript.ScriptFullName)
-psFile = objFSO.BuildPath(currentDirectory, "memoryGone.ps1")
+psFile = objFSO.BuildPath(currentDirectory, "clearmem.ps1")
 objShell.Run "powershell.exe -ExecutionPolicy Bypass -File """ & psFile & """", 0, True
 
-'WScript.Echo "Cleanup complete!"
+Set outputFile = objFSO.CreateTextFile("./scripts/scriptStatus.txt", True)
+outputFile.WriteLine("Cleanup complete!")
+outputFile.WriteLine("1")
+outputFile.Close
+
+WScript.Sleep 500
+objFSO.DeleteFile "./scripts/scriptStatus.txt", True
+
+Set objFSO = Nothing
+Set objShell = Nothing
+Set outputFile = Nothing

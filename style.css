@@ -91,6 +91,7 @@ html {
 
   #quick_search:hover{
     color: #ffc067;
+    transition: 0.2s;
   }
 
   a {
@@ -357,9 +358,14 @@ html {
 
 #CPU{
   padding-right: 10px;
+  color: var(--cpu);
 }
 
+#RAM{
+  color: var(--ram);
+}
 
 #system-stats:hover {
-  opacity: 0.7;
+  opacity: 0.9;
+  color: var(--stats-hover);
 }

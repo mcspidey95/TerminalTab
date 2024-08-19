@@ -60,7 +60,7 @@ function Get-BrowserUsage {
 $lines = Get-Content $inputFilePath
 $browserName = $lines[5].Trim()
 
-# Map browser names to process names
+
 $processName = switch -Wildcard ($browserName) {
     "Brave"        { "brave" }
     "Duck"         { "duckduckgo" }
@@ -68,19 +68,27 @@ $processName = switch -Wildcard ($browserName) {
     "Firefox"      { "firefox" }
     "Edge"         { "msedge" }
     "Opera"        { "opera" }
-    default        { Write-Output "Unsupported browser: $browserName"; exit }
+    default        { exit }
+}
+
+$downloadsPath = [Environment]::GetFolderPath('UserProfile') + "\Downloads"
+$fileExists = $False
+
+$files = Get-ChildItem -Path $downloadsPath -File -ErrorAction SilentlyContinue
+
+if ($files) {
+    $fileExists = $True
 }
 
 # Get browser usage
 $usage = Get-BrowserUsage -processName $processName
 
-# Write the results to the output file
 $outputContent = @"
 Browser: $browserName
-CPU: $($usage.CPUUsage)%
-RAM: $($usage.RAMUsagePercentage)%
+$($usage.CPUUsage)%
+$($usage.RAMUsagePercentage)%
+
+Downloads: $fileExists
 "@
 
 Set-Content -Path $outputFilePath -Value $outputContent
-
-# Write-Output "Browser usage saved to $outputFilePath"

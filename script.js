@@ -261,11 +261,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const obj = Object.fromEntries(fd);
   
       const json = JSON.stringify(obj);
-      localStorage.setItem('settings', json);
-  
-      setTimeout(() => {
-        location.reload(true);
-      }, 500);
+
+      if(localStorage.getItem('settings') != json){
+        localStorage.setItem('settings', json);
+
+        setTimeout(() => {
+          location.reload(true);
+        }, 500);
+      }
     }
     else {
       isSidebarOpen = true;
@@ -273,14 +276,15 @@ document.addEventListener('DOMContentLoaded', () => {
       async function getStats(){
         while(isSidebarOpen){
           const getUsage = await fetch('./scripts/taskManager/browser_usage.txt');
-  
+          
           const usageFile = await getUsage.text();
+          if(!usageFile.trim()) continue;
           const usage = usageFile.split('\n');
 
           document.getElementById('CPU').innerHTML = usage[1];
           document.getElementById('RAM').innerHTML = usage[2];
 
-          setTimeout(1141);
+          setTimeout(1543);
         }
       }
 
@@ -375,6 +379,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.documentElement.style.setProperty('--mouseHighlight', color3);
   document.getElementById('system-stats').style.setProperty('--stats', color1);
+  document.getElementById('system-stats').style.setProperty('--stats-hover', color3);
+  document.getElementById('CPU').style.setProperty('--cpu', color2);
+  document.getElementById('RAM').style.setProperty('--ram', color2);
 
   document.querySelectorAll('li > a').forEach(a => {
     a.addEventListener('mouseover', function() {
@@ -1023,17 +1030,36 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (searchValue.includes('.') && !searchValue.includes(' .') && !searchValue.includes('. ')) {
         window.location.href = 'https://' + searchValue;
       } else if(searchValue === '/shizuku') {
+        setTimeout(500);
         executeScript('/scripts', './scripts/shizuku/shizuku.vbs', true);
       } else if(searchValue.startsWith('/cmd')) {
         let command = 'cmd';
 
-        if(searchValue.length > 3){
-          command = searchValue.substring(4);
+        if(searchValue.length > 4){
+          command = searchValue.substring(5);
         }
 
         fetch(`/cmd?command=${command}`)
         setTimeout(500);
         executeScript('/scripts', './scripts/cmd.vbs', false);
+        setTimeout(500);
+        location.reload();
+      } else if(searchValue === '/sort') {
+        executeScript('/scripts', './scripts/sortDownloads/sort.vbs', true);
+      } else if(searchValue === '/autosort-off') {
+        let autosort = 'off';
+        fetch(`/auto-sort?toggle=${autosort}`)
+        searchValue = '';
+        showNotification('Autosort Disabled!', 2000);
+      } else if(searchValue === '/autosort-on') {
+        let autosort = 'on';
+        fetch(`/auto-sort?toggle=${autosort}`)
+        searchValue = '';
+        showNotification('Autosort Enabled!', 2000);
+      } else if(searchValue === '/reload') {
+        executeScript('/scripts', './scripts/reload.vbs', false);
+      } else if(searchValue === '/clean') {
+        executeScript('/scripts', './scripts/cleaning/clear.vbs', true);
       }
       
       
@@ -1111,11 +1137,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const obj = Object.fromEntries(fd);
   
       const json = JSON.stringify(obj);
-      localStorage.setItem('settings', json);
-  
-      setTimeout(() => {
-        location.reload(true);
-      }, 500);
+      if(localStorage.getItem('settings') != json){
+        localStorage.setItem('settings', json);
+
+        setTimeout(() => {
+          location.reload(true);
+        }, 500);
+      }
+      count++;
     }
   });
 

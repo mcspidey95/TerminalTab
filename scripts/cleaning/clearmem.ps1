@@ -1,16 +1,14 @@
-# Get all processes
 $processes = Get-Process
 
-# Get opened apps (processes with a visible window)
+# Get opened apps
 $openedApps = $processes | Where-Object {$_.MainWindowHandle -ne 0}
 
-# Get startup apps (processes that are set to start automatically)
+# Get startup apps
 $startupApps = Get-CimInstance Win32_StartupCommand | Select-Object -ExpandProperty Command
 
-# Combine opened and startup apps into exceptions list
 $exceptions = @($openedApps.ProcessName) + @($startupApps | ForEach-Object {($_ -split '\\')[-1]})
 
-# Add 'cmd' and 'powershell' to the exceptions list to prevent termination
+# Create Exceptions List
 $exceptions += "cmd", "powershell"
 
 # Close unnecessary background processes
@@ -37,4 +35,5 @@ $unusedMemory = (Get-Process -Id $PID).WorkingSet64
 # Reclaim memory
 Clear-ProcessMemory
 
+# Clear DNS cache
 Clear-DnsClientCache

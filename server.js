@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const app = express();
 const port = 8008; //change port if you want to
+let isSorting = false;
 
 app.use(express.json());
 
@@ -16,7 +17,37 @@ exec(`cscript //nologo "${"status.vbs"}"`)
 function BrowserStats() {
   exec('powershell.exe -ExecutionPolicy Bypass -File "./scripts/taskManager/usage.ps1"');
 }
-setInterval(BrowserStats, 2000);
+setInterval(BrowserStats, 2177);
+
+function autoSort() {
+  if(isSorting) return;
+  isSorting = true;
+
+  fs.readFile('./scripts/sortDownloads/sort.txt', 'utf8', (err, data) => {
+    const toggle = data;
+
+    if(toggle === 'on') {
+      fs.readFile('./scripts/taskManager/browser_usage.txt', 'utf8', (err, data1) => {
+        if(!data1.trim()) return;
+        const usage = data1.split('\n');
+
+        if(usage[4].trim() == 'Downloads: True') {
+
+          setTimeout(() => {
+            exec(`cscript //nologo "${"scripts/sortDownloads/autoSort.vbs"}"`);
+            isSorting = false;
+          }, 50000);
+        }
+        else {
+          isSorting = false;
+        }
+      });
+    }
+  });
+}
+setInterval(() => {
+  if(!isSorting) autoSort();
+}, 10000);
 
 
 app.post('/scripts', (req) => {
@@ -43,10 +74,16 @@ app.get('/browser-info', (req) => {
 app.get('/cmd', (req) => {
   const command = req.query.command;
 
-  fs.readFile('./scripts/command.txt', 'utf8', (err, data) => {
+  fs.writeFile('./scripts/cmd/command.txt', command, (err) => {})
+  const absolutePath = path.resolve("./scripts/cmd/cmd.vbs");
+  
+  exec(`cscript //nologo "${absolutePath}"`);
+});
 
-    fs.writeFile('status.txt', command, (err) => {})
-  });
+app.get('/auto-sort', (req) => {
+  const toggle = req.query.toggle;
+
+  fs.writeFile('./scripts/sortDownloads/sort.txt', toggle, (err) => {})
 });
 
 
