@@ -26,7 +26,7 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 ### Windows
 
 0.  **PREREQUISITES**:
-    - Install Python from the Microsoft Store: [Python 3.12](https://www.microsoft.com/store/productId/9NCVDN91XZQP?ocid=pdpshare). Don't come and complain that it doesnt work later.. Install it now 🧑‍💻
+    - Install Node.Js from their website: [Node.JS](https://nodejs.org/en). Don't come and complain that it doesnt work later.. Install it now 🧑‍💻
 
 1. **Install the Extension**:
     - Pick any one Setup.. based on your mood 🥰
@@ -38,12 +38,12 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 3. **Set the New Tab URL**:
     - Paste this URL in the extension’s menu. This is where the magic happens. 🌟
        ```
-       http://localhost:8000/index.html
+       http://localhost:8008
        ```
 
 4. **Restart Your Laptop**:
     - Give your laptop a quick restart and voilà! Your terminal-themed homepage awaits. 🚀
-    - Press `Ctrl + f5` after updates to clear cache. (Ctrl + fn + f5 if that doesnt work) 💅
+    - Type `/reload` in search bar, to clear cache after updates. 💅
 
 And there you have it! Your new tab page is ready to dazzle and delight. If any step seems tricky, don’t worry - we’ll have screenshots to guide you through! 📷
 
