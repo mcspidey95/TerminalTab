@@ -20,6 +20,7 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 - 🔎 **Quick Search Options**: Choose your preferred search engine and go!
 - 🌟 **Favorite Links**: Access your go-to websites in a jiffy.
 - 😍 **Fidgety Backgrounds**: A Background designed to pass time... especially if you're bored :)
+- 🙌 **Optimization**: Clean and Organize your laptop with a few simple commands
 
 ## Instructions (One Time Setup)
 
