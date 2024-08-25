@@ -27,7 +27,7 @@ End Function
 
 
 Dim whatsappExePath
-whatsappExePath = "C:\Program Files\WindowsApps\5319275A.WhatsAppDesktop_2.2432.5.0_x64__cv1g1gvanyjgm\WhatsApp.exe"
+whatsappExePath = "C:\Program Files\WindowsApps\5319275A.WhatsAppDesktop_2.2433.3.0_x64__cv1g1gvanyjgm\WhatsApp.exe"
 
 Dim whatsappInstalled
 whatsappInstalled = IsInstalledByPath(whatsappExePath)

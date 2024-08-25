@@ -870,11 +870,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('cursor').addEventListener('mouseenter', () => {
     iconGrids.forEach(iconGrid => {
-      let iconUrl = './icons/elephant.svg';
+      let iconUrl = './icons/fries.svg';
 
       fetchSvgDataUrl(iconUrl, colorSearch).then(dataUrl => {
         updatedSVGDataUrl = dataUrl;
-        populateIcons(iconGrid, updatedSVGDataUrl, '55px');
+        populateIcons(iconGrid, updatedSVGDataUrl);
       });
     });
     wrapper.style.opacity = 1;
@@ -1022,6 +1022,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   document.addEventListener('keydown', (e) => {
+
+    if(e.key === '/'){
+      e.preventDefault();
+    }
 
     if (e.key === 'Enter' && !isSidebarOpen) {
       e.preventDefault();
