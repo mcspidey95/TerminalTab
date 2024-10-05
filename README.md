@@ -28,18 +28,23 @@ Say goodbye to boring old google tab and hello to a new tab experience that’s 
 
 0.  **PREREQUISITES**:
     - Install Node.Js from their website: [Node.JS](https://nodejs.org/en). Don't come and complain that it doesnt work later.. Install it now 🧑‍💻
+  
+1. **Install the .EXE file**:
 
-1. **Install the Extension**:
+    - Pick any one Setup.. based on your mood 🥰
+    - [Download](https://github.com/mcspidey95/TerminalTab/releases)
+
+2. **Install the Extension**:
     - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna). (Because your browser is useless 🍇)
     - If you have firefox, use this: [New Tab Override](https://addons.mozilla.org/en-US/firefox/addon/new-tab-override/). (This browser is even more useless 💅)
 
-2. **Set the New Tab URL**:
+3. **Set the New Tab URL**:
     - Paste this URL in the extension’s menu. This is where the magic happens. 🌟
        ```
        http://localhost:8008
        ```
 
-3. **Restart Your Laptop**:
+4. **Restart Your Laptop**:
     - Give your laptop a quick restart and voilà! Your terminal-themed homepage awaits. 🚀
     - Type `/reload` in search bar, to clear cache after updates. 💅
 
