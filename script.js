@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       fetchSvgDataUrl(iconUrl, color2).then(dataUrl => {
         updatedSVGDataUrl = dataUrl;
-        populateIcons(iconGrid, updatedSVGDataUrl,);
+        populateIcons(iconGrid, updatedSVGDataUrl);
       });
     });
     wrapper.style.opacity = 1;
@@ -876,12 +876,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   document.getElementById('cursor').addEventListener('mouseenter', () => {
+    let randomUrl = Math.random() < 0.5 ? './icons/icecream.svg' : './icons/pizza.svg';
     iconGrids.forEach(iconGrid => {
-      let iconUrl = './icons/fries.svg';
+
+      let iconUrl = randomUrl;
 
       fetchSvgDataUrl(iconUrl, colorSearch).then(dataUrl => {
         updatedSVGDataUrl = dataUrl;
-        populateIcons(iconGrid, updatedSVGDataUrl);
+        populateIcons(iconGrid, updatedSVGDataUrl, '55px');
       });
     });
     wrapper.style.opacity = 1;
