@@ -12,6 +12,10 @@ let searchValue = '';
 let isSidebarOpen = false;
 let count = 0;
 let splitCount = 0;
+let getSuggestions = true;
+let remainingText = '';
+let historyCounter = 0;
+let timeout;
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -44,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const link2 = document.getElementById('fitgirl');
   const link3 = document.getElementById('mom');
   const link4 = document.getElementById('dad');
+
+  let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+  historyCounter = searchHistory.length;
 
   let themes = [
     {
@@ -994,8 +1001,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let message = '';
     searchValue = '';
 
-    setTimeout(1000);
-
     if(flag) {
       while(exitStatus != '1') {
         const getStatus = await fetch('./scripts/scriptStatus.txt');
@@ -1019,23 +1024,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
+  let tempFlag = true;
+  let tempSearch = '';
   document.addEventListener('keydown', (e) => {
 
     if(e.key === '/'){
       e.preventDefault();
     }
 
+    if(e.key === 'Tab'){
+      e.preventDefault();
+      searchValue += remainingText;
+      updateSearch(e);
+    }
+
+    if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      if(tempFlag){
+        tempFlag = false;
+        tempSearch = searchValue;
+      }
+
+      if(historyCounter > 0) {
+        historyCounter--;
+        searchValue = searchHistory[historyCounter];
+      }
+      updateSearch(e);
+    }
+
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      if(historyCounter == searchHistory.length-1) {
+        tempFlag = true;
+        searchValue = tempSearch;
+      }
+
+      if(historyCounter < searchHistory.length-1) {
+        historyCounter++;
+        searchValue = searchHistory[historyCounter];
+      }
+      updateSearch(e);
+    }
+
     if (e.key === 'Enter' && !isSidebarOpen) {
       e.preventDefault();
-      if (searchValue.includes('https://')) {
+
+      if(searchHistory.length >= 69)
+      {
+        searchHistory.shift();  
+      }
+      if(searchValue != "")
+      {
+        searchHistory.push(searchValue);
+        historyCounter = searchHistory.length;
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+      }
+
+      if(searchValue == ""){
+        showNotification("Type something re", 2000);
+      } else if (searchValue.includes('https://')) {
         window.location.href = searchValue;
-      } else if (searchValue.includes('.') && !searchValue.includes(' .') && !searchValue.includes('. ')) {
+      } else if (searchValue.includes('.') && !searchValue.includes(' .') && !searchValue.includes('. ') && !searchValue.includes(' ')) {
         window.location.href = 'https://' + searchValue;
       } else if(searchValue === '/shizuku') {
-        setTimeout(500);
-        executeScript('/scripts', './scripts/shizuku/shizuku.vbs', true);
+          searchValue = '';
+          setTimeout(() => {
+            executeScript('/scripts', './scripts/shizuku/shizuku.vbs', true);
+        }, 500);
+      } else if(searchValue === '/pair'){
+          searchValue = '';
+          setTimeout(() => {
+            executeScript('/scripts', './scripts/shizuku/pair.vbs', true);
+        }, 500);
+      } else if(searchValue === '/connect'){
+          searchValue = '';
+          setTimeout(() => {
+            executeScript('/scripts', './scripts/shizuku/connect.vbs', true);
+        }, 500);
       } else if(searchValue.startsWith('/cmd')) {
         let command = 'cmd';
 
@@ -1044,10 +1109,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         fetch(`/cmd?command=${command}`)
-        setTimeout(500);
-        executeScript('/scripts', './scripts/cmd.vbs', false);
-        setTimeout(500);
-        location.reload();
+        setTimeout(() => {
+          executeScript('/scripts', './scripts/cmd.vbs', false);
+          setTimeout(() => {
+            location.reload();
+          }, 500);
+        }, 500);
       } else if(searchValue === '/sort') {
         executeScript('/scripts', './scripts/sortDownloads/sort.vbs', true);
       } else if(searchValue === '/autosort-off') {
@@ -1063,10 +1130,15 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if(searchValue === '/reload') {
         executeScript('/scripts', './scripts/reload.vbs', false);
       } else if(searchValue === '/clean') {
-        executeScript('/scripts', './scripts/cleaning/clear.vbs', true);
+        searchValue = '';
+        setTimeout(() => {
+          executeScript('/scripts', './scripts/cleaning/clear.vbs', true);
+        }, 500);
       } else if(document.getElementById('quick_search').innerHTML === ' youtube 📺'){
+        searchValue.replace('+', '%2b');
         window.location.href = 'https://www.youtube.com/results?search_query=' + searchValue.split(' ').join('+');
       } else {
+        searchValue = searchValue.replace(/\+/g, '%2b');
         window.location.href = engineUrl + searchValue.split(' ').join('+');
       }
     } else if (getComputedStyle(search).getPropertyValue('--highlight') === color3 && e.key === 'Backspace' && !isSidebarOpen) {
@@ -1081,6 +1153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       search.style.setProperty('--highlight', color3);
       search2.style.setProperty('--highlight', color3);
       searchLength = searchValue.length;
+      updateSearch(e);
     } else if (e.ctrlKey && e.key === 'c' && getComputedStyle(search).getPropertyValue('--highlight') === color3 && !isSidebarOpen){
       e.preventDefault();
       navigator.clipboard.writeText(searchValue);
@@ -1117,7 +1190,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    if(splitCount != 0 || getComputedStyle(search).getPropertyValue('--highlight') === color3){
+      getSuggestions = false;
+      search.innerHTML = searchValue;
+    }
+    else getSuggestions = true;
+
     updateSearch(e);
+    
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      if(getSuggestions && !searchValue.startsWith('/')){
+        autocomplete(getSuggestions);
+      }
+    }, 500);
   });
 
   document.addEventListener('click', (e) => {
@@ -1161,6 +1248,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  //function searchHistory(searchQuery) {
+    //searchHistory.push(searchQuery);
+    //localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+  //}
+
+  async function autocomplete() {
+    if (searchValue.length) {
+      await fetch(`/search?q=${encodeURIComponent(searchValue)}`)
+          .then(response => response.json())
+          .then(data => {
+            let suggestion = data[0] ? data[0].phrase : '';
+            remainingText = suggestion.substring(searchValue.length);
+
+            search.innerHTML = `<span style="opacity: 1;">${searchValue}</span><span style="opacity: 0.5;">${remainingText}</span>`;
+          });
+    } 
+  }
+
   function updateSearch(e) {
     if(searchValue.length <= 52 && !e.ctrlKey)
     {
@@ -1170,10 +1275,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if(search.innerHTML.length < 52){
         search.innerHTML = searchValue.slice(0, searchValue.length - splitCount);
         search2.innerHTML = searchValue.slice(searchValue.length - splitCount).slice(0, 52 - search.innerHTML.length);
+        getSuggestions = false;
       }
       else{
         search.innerHTML = searchValue.slice(0, searchValue.length - splitCount).slice(-52);
         search2.innerHTML = searchValue.slice(searchValue.length - splitCount).slice(0, 52 - search.innerHTML.length);
+        getSuggestions = false;
       }
     }
   }

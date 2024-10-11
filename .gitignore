@@ -5,6 +5,7 @@ test.html
 *.dll
 *.conf
 *.properties
+*.bat
 NOTICE.txt
 browser_usage.txt
 status.txt

@@ -5,13 +5,41 @@ Dim resultsFile, fso, shell, result
 Set fso = CreateObject("Scripting.FileSystemObject")
 Set shell = CreateObject("WScript.Shell")
 
-Function IsInstalledByPath(exePath)
-    If fso.FileExists(exePath) Then
-        IsInstalledByPath = True
-    Else
-        IsInstalledByPath = False
+Function IsFolderInstalledByRegistry(folderSubstring)
+    On Error Resume Next
+    Dim objRegistry, arrSubKeys, subkeyName, folderExists
+    folderExists = False
+
+    ' Create a WMI object to access the registry
+    Set objRegistry = GetObject("winmgmts:\\.\root\default:StdRegProv")
+
+    ' Define the registry hive and the fixed path to search
+    Dim hive, path
+    hive = &H80000001 ' HKEY_CURRENT_USER
+    path = "Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages\" ' Replace "ExamplePath" with your actual path
+
+    ' Enumerate the subkeys under the specified path
+    objRegistry.EnumKey hive, path, arrSubKeys
+
+    ' Check each subkey to see if it matches the folder substring
+    If Not IsNull(arrSubKeys) Then
+        For Each subkeyName In arrSubKeys
+            If InStr(1, subkeyName, folderSubstring, vbTextCompare) > 0 Then
+                folderExists = True
+                Exit For
+            End If
+        Next
     End If
+
+    ' Return whether the folder with the substring exists or not
+    IsFolderInstalledByRegistry = folderExists
+
+    ' Clean up
+    Set objRegistry = Nothing
+    On Error GoTo 0
 End Function
+
+
 
 Function IsInstalledByRegistry(regPath)
     On Error Resume Next
@@ -26,18 +54,11 @@ Function IsInstalledByRegistry(regPath)
 End Function
 
 
-Dim whatsappExePath
-whatsappExePath = "C:\Program Files\WindowsApps\5319275A.WhatsAppDesktop_2.2433.3.0_x64__cv1g1gvanyjgm\WhatsApp.exe"
-
 Dim whatsappInstalled
-whatsappInstalled = IsInstalledByPath(whatsappExePath)
-
-
-Dim teamsExePath
-teamsExePath = "C:\Program Files\WindowsApps\MSTeams_24193.1805.3040.8975_x64__8wekyb3d8bbwe\ms-teams.exe"
+whatsappInstalled = IsFolderInstalledByRegistry("WhatsAppDesktop")
 
 Dim teamsInstalled
-teamsInstalled = IsInstalledByPath(teamsExePath)
+teamsInstalled = IsFolderInstalledByRegistry("MSTeams")
 
 
 Dim discordRegPath, stremioRegPath
