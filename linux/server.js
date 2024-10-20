@@ -1,5 +1,6 @@
 const express = require('express');
 const { exec } = require('child_process');
+const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const app = express();
@@ -10,6 +11,8 @@ app.use(express.json());
 
 // Serve static files from the current directory
 app.use(express.static(__dirname));
+
+const homeDir = os.homedir();
 
 
 exec('./status.sh')
@@ -55,7 +58,7 @@ app.post('/scripts', (req) => {
   const vbscriptPath = req.body.vbscriptPath;
   const absolutePath = path.resolve(vbscriptPath);
   
-  exec(`bash "${absolutePath}"`);
+  exec(`HOME=${homeDir} bash "${absolutePath}"`);
 });
 
 
