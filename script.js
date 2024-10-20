@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var search = document.getElementById('search');
   var search2 = document.getElementById('search2');
   const cursor = document.getElementById('cursor')
-  const numberOfIcons = 100; // Adjust the number of icons
+  const numberOfIcons = 150; // Adjust the number of icons
   const iconSpacing = 50;
   const iconGrids = document.querySelectorAll('.icon-grid');
   const wrapper = document.querySelector('.icon-grid-wrapper');
@@ -974,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('quick_search').innerHTML === ' newtab') {
       document.getElementById('quick_search').innerHTML = ' youtube?';
     }
-    else if(document.getElementById('quick_search').innerHTML === ' youtube 📺') {
+    else if(document.getElementById('quick_search').innerHTML === ' youtube ( 𖦹〰𖦹)⊹') {
       document.getElementById('quick_search').innerHTML = ' newtab?';
     }
   });
@@ -983,12 +983,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('quick_search').innerHTML = ' newtab';
     }
     else if(document.getElementById('quick_search').innerHTML === ' newtab?') {
-      document.getElementById('quick_search').innerHTML = ' youtube 📺';
+      document.getElementById('quick_search').innerHTML = ' youtube ( 𖦹〰𖦹)⊹';
     }
   });
   document.getElementById('quick_search').addEventListener('click', () => {
     if(document.getElementById('quick_search').innerHTML === ' youtube?') {
-      document.getElementById('quick_search').innerHTML = ' youtube 📺';
+      document.getElementById('quick_search').innerHTML = ' youtube ( 𖦹〰𖦹)⊹';
       username__.innerHTML = user + '@yt &gt;';
     }
     else if(document.getElementById('quick_search').innerHTML === ' newtab?') {
@@ -1093,16 +1093,6 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => {
             executeScript('/scripts', './scripts/shizuku/shizuku.vbs', true);
         }, 500);
-      } else if(searchValue === '/pair'){
-          searchValue = '';
-          setTimeout(() => {
-            executeScript('/scripts', './scripts/shizuku/pair.vbs', true);
-        }, 500);
-      } else if(searchValue === '/connect'){
-          searchValue = '';
-          setTimeout(() => {
-            executeScript('/scripts', './scripts/shizuku/connect.vbs', true);
-        }, 500);
       } else if(searchValue.startsWith('/cmd')) {
         let command = 'cmd';
 
@@ -1136,7 +1126,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           executeScript('/scripts', './scripts/cleaning/clear.vbs', true);
         }, 500);
-      } else if(document.getElementById('quick_search').innerHTML === ' youtube 📺'){
+      } else if(searchValue === '/noZuckerberg') {
+        searchValue = '';
+        localStorage.clear();
+        showNotification('ദ്ദി(*꒦ິ꒳꒦ີ)', 2000);
+        setTimeout(() => {
+          location.reload();
+        }, 2500);
+      } else if(document.getElementById('quick_search').innerHTML === ' youtube ( 𖦹〰𖦹)⊹'){
         searchValue.replace('+', '%2b');
         window.location.href = 'https://www.youtube.com/results?search_query=' + searchValue.split(' ').join('+');
       } else {

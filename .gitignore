@@ -1,6 +1,6 @@
 test.html
 **/node_modules/
-*.json
+**/deb/
 *.exe
 *.dll
 *.conf
@@ -9,3 +9,4 @@ test.html
 NOTICE.txt
 browser_usage.txt
 status.txt
+nohup.out

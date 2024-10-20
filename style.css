@@ -231,6 +231,7 @@ html {
   #sidebar {
   background-color: #1d1f21;
   border-radius: 7px;
+  overflow-y: auto;
   box-shadow: 1px 1px 6px #1d1f2187;
   color: #c5c8c6;
   position: fixed;
@@ -241,7 +242,6 @@ html {
   padding: 2em;
   transition: right 0.3s ease;
   z-index: 2;
-  overflow: hidden;
 }
 
 #sidebar.open {
