@@ -42,7 +42,7 @@ html {
 
   .icon-grid-wrapper {
     position: absolute;
-    top: 0;
+    top: 15px;
     left: 0;
     width: 200%;
     height: 100%;
@@ -92,6 +92,7 @@ html {
   #quick_search:hover{
     color: #ffc067;
     transition: 0.2s;
+    cursor: pointer
   }
 
   a {
