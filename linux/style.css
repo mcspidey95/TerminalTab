@@ -12,6 +12,28 @@
   background-color: var(--mouseHighlight);
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 80px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background:#222A35;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #575C66;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #626970;
+}
+
 html {
     align-items: center;
     background-color: black;
@@ -23,6 +45,10 @@ html {
     height: 100%;
     justify-content: center;
     position: relative;
+  }
+
+  body{
+    user-select: none;
   }
 
   #container {
@@ -98,6 +124,22 @@ html {
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  #googleSearch:hover #r{
+    color: #ea4335;
+  }
+
+  #googleSearch:hover #y{
+    color: #fbbc05;
+  }
+
+  #googleSearch:hover #b{
+    color: #4285f4;
+  }
+
+  #googleSearch:hover #g{
+    color: #34a853;
   }
 
   .google:hover{
@@ -195,11 +237,13 @@ html {
   #search{
     color: #b5bd68;
     background-color: var(--highlight);
+    user-select: text;
   }
 
   #search2{
     color: #b5bd68;
     background-color: var(--highlight);
+    user-select: text;
   }
 
   p #cursor {
@@ -222,11 +266,12 @@ html {
     background-size: contain;
     border-radius: 50%;
     cursor: pointer;
+    transition: all 0.3s ease;
     z-index: 3;
   }
 
   #menu-toggle:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 
   #sidebar {
@@ -243,6 +288,7 @@ html {
   padding: 2em;
   transition: right 0.3s ease;
   z-index: 2;
+  user-select: text;
 }
 
 #sidebar.open {
@@ -369,4 +415,188 @@ html {
 #system-stats:hover {
   opacity: 0.9;
   color: var(--stats-hover);
+}
+
+.svg-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  gap: 5px; /* Space between SVGs */
+  margin: 10px;
+}
+
+.svg-icon {
+  width: 20px;  /* Adjust as needed */
+  height: 20px; /* Adjust as needed */
+  opacity: 0;
+  padding: 10px;
+  border-radius: 10px;
+  transition: transform 0.1s ease-in-out;
+}
+
+.svg-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 1px 1px 6px #1d1f2187;
+}
+
+#end{
+  padding-bottom: 20px;
+}
+
+#progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px; /* Adjust as needed */
+}
+
+#progress-bar{
+  border-radius: 10px;
+  opacity: 0.8;
+  background: var(--progress);
+  transition: all 0.2s ease-in-out;
+}
+
+#progress-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: white;
+  padding: 5px 10px; /* Adds spacing around text */
+  font-size: 14px; /* Adjust as needed */
+  width: 83%;
+  display: flex;
+  justify-content: space-between; /* Push elements to opposite sides */
+  align-items: center;
+  margin-bottom: 5px;
+  transition: all 0.2s ease-in-out;
+}
+
+#download-name{
+  margin-left: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+#download-speed{
+  color: var(--progress);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Dropdown Container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Button Styling */
+.dropdown-btn {
+  display: flex;  
+  align-items: center;  /* Centers items vertically */
+  justify-content: flex-start; /* Aligns items to the left */
+  padding: 0.5em;
+  border-radius: 4px;
+  border: 1px solid #c5c8c6;
+  background-color: #2c2f33;
+  color: #c5c8c6;
+  font-family: "zed", JetbrainsMono;
+  font-size: 16px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #2c2f33;
+  color: #c5c8c6;
+  width: 100%;
+  border: 1px solid #c5c8c6;
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  max-height: 250px;
+  overflow-y: auto;
+  transition: outline 0.2s ease-in-out;
+}
+
+/* Dropdown List Styling */
+.dropdown-content ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  padding: 10px;
+  list-style: none;
+  margin: 0;
+}
+
+/* Dropdown Items */
+.dropdown-content ul li {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "zed", JetbrainsMono;
+  font-size: 12px;
+  background: #2c2f33;
+  color: #c5c8c6;
+  transition: background 0.2s;
+}
+
+/* Hover Effect */
+.dropdown-content ul li:hover {
+  background: #40444b;
+}
+
+/* Color Preview */
+.color-preview {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  border: 1px solid #c5c8c6;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#save{
+  display: none;
+}
+
+.shuffle-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: auto; /* Pushes to the right */
+  cursor: pointer;
+}
+
+.shuffle-icon:hover{
+  transform: scale(1.1);
+  transition: all 0.1s ease-in-out;
+}
+
+#katze{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;  /* Adjust as needed */
+  height: auto;
+  margin: 10px; /* Adds spacing from the edges */
+  z-index: 2;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#katze:hover {
+  transform: scale(1.1) translateY(-4px);
+}
+
+#katze.move {
+  transform: translateX(-400px);
 }

@@ -3,6 +3,7 @@
 <head>
   <title id="title">user@home > newtab</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="./icons/favicon.png">
   <script src="script.js"></script>
 </head>
 <body>
@@ -17,7 +18,7 @@
 
   <nav>
     <ul>
-      <li id="cat1">google apps</li>
+      <li id="cat1"><a class="googleSearch" id="googleSearch" href="https://www.google.com/"><span id="b">g</span><span id="r">o</span><span id="y">o</span><span id="b">g</span><span id="g">l</span><span id="r">e</span></a> apps</li>
       <li></li>
       <li><a class="google" id="gmail" href="https://mail.google.com/mail/u/0/">gmail</a></li>
       <li><a class="google" id="drive" href="https://drive.google.com/drive/u/0/">drive</a></li>
@@ -69,7 +70,26 @@
     </ul>
   </nav>
 
-  <p><span id="user__"></span> <span id="search"></span><span id="cursor">_</span><span id="search2"></span></p>
+  <p id="end"><span id="user__"></span> <span id="search"></span><span id="cursor">_</span><span id="search2"></span></p>
+
+  <div id="progress-text" style="position: absolute; bottom: 15px; left: 0; color: white;">
+    <p id="download-name"></p><p id="download-speed"></p>
+  </div>
+
+  <div id="progress-container" style="width: 100%;">
+    <div id="progress-bar" style="width: 0%; height: 5px;"></div>
+  </div>
+
+  <div class="svg-wrapper">
+    <div class="svg-sub">
+      <img src="./icons/mp3.svg" alt="mp3" class="svg-icon" id="mp3Icon">
+    </div>
+    <div class="svg-sub">
+      <img src="./icons/mp4.svg" alt="mp4" class="svg-icon" id="mp4Icon">
+    </div>
+  </div>
+  
+
 </div>
 
 <div id="menu-toggle"></div>
@@ -87,21 +107,37 @@
         <input type="text" id="username" name="username" required>
         </div>
       </div>
-  
+
       <div class="form-group">
-        <label for="theme">Theme</label>
-        <select id="theme" name="theme">
-          <option value="0">sunset</option>
-          <option value="1">forest</option>
-          <option value="2">tropical</option>
-          <option value="3">galaxy</option>
-          <option value="4">ocean</option>
-          <option value="5">coffee</option>
-          <option value="6">barbie</option>
-          <option value="7">deadpool & wolvie</option>
-          <option value="8">the quiet forest</option>
-        </select>
+      <label for="theme">Theme</label>
+      <div id="dropdown" class="dropdown">
+        <button class="dropdown-btn" type="button">Select Theme</button>
+        <div id="dropdown-content" class="dropdown-content">
+          <ul>
+            <li data-value="0"><span class="color-preview" style="background: #ff746c;"></span> Sunset</li>
+            <li data-value="1"><span class="color-preview" style="background: #52D681;"></span> Forest</li>
+            <li data-value="2"><span class="color-preview" style="background: #FD9B63;"></span> Tropical</li>
+            <li data-value="3"><span class="color-preview" style="background: #aa83ff;"></span> Galaxy</li>
+            <li data-value="4"><span class="color-preview" style="background: #753d29;"></span> Coffee</li>
+            <li data-value="5"><span class="color-preview" style="background: #A0B4FF;"></span> Dusk</li>
+            <li data-value="6"><span class="color-preview" style="background: #FFA500;"></span> Citrus</li>
+            <li data-value="7"><span class="color-preview" style="background: #EE82EE;"></span> Berry</li>
+            <li data-value="8"><span class="color-preview" style="background: #ADD8E6;"></span> Glacier</li>
+            <li data-value="9"><span class="color-preview" style="background: #FFD700;"></span> Honeycomb</li>
+            <li data-value="10"><span class="color-preview" style="background: #E63946;"></span> Among Us</li>
+            <li data-value="11"><span class="color-preview" style="background: #f8d3e3;"></span> Oshi no Ko</li>
+            <li data-value="12"><span class="color-preview" style="background: #7c3b43;"></span> Demon Slayer</li>
+            <li data-value="13"><span class="color-preview" style="background: #40E0D0;"></span> Cyberpunk</li>
+            <li data-value="14"><span class="color-preview" style="background: #ae5df1;"></span> Arcane</li>
+            <li data-value="15"><span class="color-preview" style="background: #ff579f;"></span> Barbie</li>
+            <li data-value="16"><span class="color-preview" style="background: #ba4a47;"></span> Deadpool & Wolvie</li>
+            <li data-value="17"><span class="color-preview" style="background: #50B498;"></span> The Hulk</li>
+            <li data-value="18"><span class="color-preview" style="background: #DC143C;"></span> Stranger Things</li>
+          </ul>
+        </div>
       </div>
+    </div>
+      
   
       <div class="form-group">
         <label for="searchengine">Search Engine</label>
@@ -155,5 +191,6 @@
 
   <div id="notification"></div>
   
+  <img src="./icons/katze.png" id="katze" alt="katze">
 </body>
 </html>

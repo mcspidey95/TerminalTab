@@ -16,6 +16,9 @@ let getSuggestions = true;
 let remainingText = '';
 let historyCounter = 0;
 let timeout;
+let downloadformat = 'video';
+let is100 = false;
+let shuffle;
 
 document.addEventListener('DOMContentLoaded', () => {
   
@@ -29,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('sidebar');
   const container = document.getElementById('container');
+  const katze = document.getElementById('katze');
   const form = document.querySelector('form');
   const formusername = document.getElementById('username');
   const formtheme = document.getElementById('theme');
@@ -48,80 +52,228 @@ document.addEventListener('DOMContentLoaded', () => {
   const link2 = document.getElementById('fitgirl');
   const link3 = document.getElementById('mom');
   const link4 = document.getElementById('dad');
+  const mp3 = document.getElementById('mp3Icon');
+  const mp4 = document.getElementById('mp4Icon');
+  const dropdownBtn = document.querySelector('.dropdown-btn');
+  let progressContainer = document.getElementById("progress-container");
+  let progressBar = document.getElementById("progress-bar");
+  let progressName = document.getElementById("download-name");
+  let progressSpeed = document.getElementById("download-speed");
 
   let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
   historyCounter = searchHistory.length;
 
+  const dropdownItems = document.querySelectorAll('.dropdown-content ul li');
+
+  dropdownItems.forEach(item => {
+    item.addEventListener('click', function () {
+      let selectedValue = this.getAttribute('data-value');
+      let theme = themes[selectedValue];
+      shuffle = false;
+
+      fetchSvgDataUrl('./icons/shuffle.svg', '#c5c8c6').then(dataUrl => {
+        updatedSVGDataUrl = dataUrl;
+        document.querySelector(".shuffle-icon").src = updatedSVGDataUrl;
+      });
+  
+      // Update the dropdown button text and color preview
+      dropdownBtn.innerHTML = `<span class="color-preview" style="background: ${theme.color1};"></span> ${theme.name} <img src="/icons/shuffle.svg" alt="shuffle" class="shuffle-icon">`;
+      dropdownBtn.setAttribute('data-value', selectedValue);
+
+      color1 = theme.color1;
+      color2 = theme.color2;
+      color3 = theme.color3;
+      colorSearch = theme.colorSearch
+
+    
+      const cat1 = document.getElementById('cat1');
+      cat1.style.color = color1;
+      const cat2 = document.getElementById('cat2');
+      cat2.style.color = color2;
+      const cat3 = document.getElementById('cat3');
+      cat3.style.color = color3;
+      const cat4 = document.getElementById('cat4');
+      cat4.style.color = color3;
+      const cat5 = document.getElementById('cat5');
+      cat5.style.color = color1;
+      const cat6 = document.getElementById('cat6');
+      cat6.style.color = color2;
+
+      username_.style.color = colorSearch;
+      username__.style.color = colorSearch;
+      search.style.color = colorSearch;
+      search2.style.color = colorSearch;
+      cursor.style.color = colorSearch;
+      cursor.style.backgroundColor = colorSearch;
+
+      var menu1 = document.getElementsByClassName('google');
+      Array.from(menu1).forEach((item) => {
+        item.style.setProperty('--menu1', color1);
+      });
+      var menu2 = document.getElementsByClassName('stream');
+      Array.from(menu2).forEach((item) => {
+        item.style.setProperty('--menu2', color2);
+      });
+      var menu3 = document.getElementsByClassName('work');
+      Array.from(menu3).forEach((item) => {
+        item.style.setProperty('--menu3', color3);
+      });
+      var menu4 = document.getElementsByClassName('media');
+      Array.from(menu4).forEach((item) => {
+        item.style.setProperty('--menu4', color3);
+      });
+      var menu5 = document.getElementsByClassName('user');
+      Array.from(menu5).forEach((item) => {
+        item.style.setProperty('--menu5', color1);
+      });
+      var menu6 = document.getElementsByClassName('tools');
+      Array.from(menu6).forEach((item) => {
+        item.style.setProperty('--menu6', color2);
+      });
+    });
+  });
+  
+
   let themes = [
     {
-      name: 'sunset',
-      color1: '#ff746c',
-      color2: '#ffc067',
-      color3: '#ffee8c',
-      colorSearch: '#b5bd68'
+        name: 'Sunset',
+        color1: '#ff746c',
+        color2: '#ffc067',
+        color3: '#ffee8c',
+        colorSearch: '#b5bd68'
     },
     {
-      name: 'forest',
-      color1: '#52D681',
-      color2: '#B5FF7D',
-      color3: '#E6FF94',
-      colorSearch: '#00AD7C'
+        name: 'Forest',
+        color1: '#52D681',
+        color2: '#B5FF7D',
+        color3: '#E6FF94',
+        colorSearch: '#00AD7C'
     },
     {
-      name: 'tropical',
-      color1: '#FD9B63',
-      color2: '#E7D37F',
-      color3: '#81A263',
-      colorSearch: '#497f44'
+        name: 'Tropical',
+        color1: '#FD9B63',
+        color2: '#E7D37F',
+        color3: '#81A263',
+        colorSearch: '#497f44'
     },
     {
-      name: 'galaxy',
-      color1: '#aa83ff',
-      color2: '#c081d5',
-      color3: '#b0fbe7',
-      colorSearch: '#fecece'
+        name: 'Galaxy',
+        color1: '#aa83ff',
+        color2: '#c081d5',
+        color3: '#b0fbe7',
+        colorSearch: '#fecece'
     },
     {
-      name: 'ocean',
-      color1: '#478CCF',
-      color2: '#36C2CE',
-      color3: '#77E4C8',
-      colorSearch: '#cfc1af'
+        name: 'Coffee',
+        color1: '#753d29',
+        color2: '#b0814f',
+        color3: '#f0e2c5',
+        colorSearch: '#dab49d'
     },
     {
-      name: 'coffee',
-      color1: '#753d29',
-      color2: '#b0814f',
-      color3: '#f0e2c5',
-      colorSearch: '#dab49d'
+        name: 'Dusk',
+        color1: '#A0B4FF',
+        color2: '#D0E3FA',
+        color3: '#E0F0FF',
+        colorSearch: '#8098D9'
     },
     {
-      name: 'barbie',
-      color1: '#ff579f',
-      color2: '#FC819E',
-      color3: '#E3A5C7',
-      colorSearch: '#FFF3C7'
+        name: 'Citrus',
+        color1: '#FFA500',
+        color2: '#FFD86B',
+        color3: '#FFE5B4',
+        colorSearch: '#CC8400'
     },
     {
-      name: 'deadpool & wolvie',
-      color1: '#ba4a47',
-      color2: '#cca836',
-      color3: '#788aa0',
-      colorSearch: '#c4ccd6'
+        name: 'Berry',
+        color1: '#EE82EE',
+        color2: '#F0A0FF',
+        color3: '#F8C8FF',
+        colorSearch: '#BB66CC'
     },
     {
-      name: "the marvel's hulk",
-      color1: '#50B498',
-      color2: '#9CDBA6',
-      color3: '#DEF9C4',
-      colorSearch: '#468585'
-    }
-  ]
+        name: 'Glacier',
+        color1: '#ADD8E6',
+        color2: '#87CEEB',
+        color3: '#4682B4',
+        colorSearch: '#2E5A88'
+    },
+    {
+        name: 'Honeycomb',
+        color1: '#FFD700',
+        color2: '#FFFFE0',
+        color3: '#EEE8AA',
+        colorSearch: '#CCAA00'
+    },
+    {
+        name: 'Among Us',
+        color1: '#E63946',
+        color2: '#2A9D8F',
+        color3: '#F4A261',
+        colorSearch: '#C02026'
+    },
+    {
+        name: 'Oshi no Ko',
+        color1: '#f8d3e3',
+        color2: '#f3dda4',
+        color3: '#42bbc2',
+        colorSearch: '#da3b71'
+    },
+    {
+        name: 'Demon Slayer',
+        color1: '#7c3b43',
+        color2: '#58c29e',
+        color3: '#fad4af',
+        colorSearch: '#593535'
+    },
+    {
+        name: 'Cyberpunk',
+        color1: '#40E0D0',
+        color2: '#FF69B4',
+        color3: '#FFD700',
+        colorSearch: '#20A0A0'
+    },
+    {
+        name: 'Arcane',
+        color1: '#ae5df1',
+        color2: '#ff02fd',
+        color3: '#05fbd4',
+        colorSearch: '#D0A0E2'
+    },
+    {
+        name: 'Barbie',
+        color1: '#ff579f',
+        color2: '#FC819E',
+        color3: '#E3A5C7',
+        colorSearch: '#FFF3C7'
+    },
+    {
+        name: 'Deadpool & Wolvie',
+        color1: '#ba4a47',
+        color2: '#cca836',
+        color3: '#788aa0',
+        colorSearch: '#c4ccd6'
+    },
+    {
+        name: "The Hulk",
+        color1: '#50B498',
+        color2: '#9CDBA6',
+        color3: '#DEF9C4',
+        colorSearch: '#468585'
+    },
+    {
+        name: 'Stranger Things',
+        color1: '#DC143C',
+        color2: '#FF6347',
+        color3: '#FFA07A',
+        colorSearch: '#AA0D28'
+    },
+];
   
   if(localStorage.getItem('settings') === null) {
     localStorage.setItem('settings', JSON.stringify({
       username: 'user',
-      theme: 0,
+      theme: 1,
       searchengine: 'google',
       field1name: 'filecr',
       field1link: 'https://filecr.com/',
@@ -136,6 +288,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   var json = localStorage.getItem('settings');
   var obj = JSON.parse(json);
+  console.log(obj);
+  shuffle = obj.shuffle || false;
 
     for(key in obj) {
       if(key === 'username') {
@@ -144,15 +298,19 @@ document.addEventListener('DOMContentLoaded', () => {
         formusername.value = obj[key];
       }
       if(key === 'theme') {
-        formtheme.value = obj[key];
-        index = parseInt(obj[key]);
+        //formtheme.value = obj[key];
+        index = shuffle ? shuffledTheme() : parseInt(obj[key]);
         let theme = themes[index];
         themeName = theme.name;
         color1 = theme.color1;
         color2 = theme.color2;
         color3 = theme.color3;
         colorSearch = theme.colorSearch
+
+        dropdownBtn.innerHTML = `<span class="color-preview" style="background: ${color1};"></span> ${themeName} <img src="/icons/shuffle.svg" alt="shuffle" class="shuffle-icon">`;
+        dropdownBtn.setAttribute('data-value', obj[key]); // Store selected value
       }
+      
       if(key === 'searchengine') {
         engine = obj[key];
         if(engine === 'google') {
@@ -216,25 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const fd = new FormData(form);
-    const obj = Object.fromEntries(fd);
-
-    const json = JSON.stringify(obj);
-    localStorage.setItem('settings', json);
-
-    sidebar.classList.toggle('open');
-    container.classList.toggle('move');
-
-    //localStorage.clear();
-
-    setTimeout(() => {
-      location.reload(true);
-    }, 500);
-  });
-
 
   function getBrowser() {
     const userAgent = navigator.userAgent;
@@ -265,9 +404,13 @@ document.addEventListener('DOMContentLoaded', () => {
       isSidebarOpen = false;
 
       const fd = new FormData(form);
-      const obj = Object.fromEntries(fd);
-  
+      let obj = Object.fromEntries(fd);
+
+      obj["theme"] = dropdownBtn.getAttribute("data-value");
+      obj["shuffle"] = shuffle;
+      
       const json = JSON.stringify(obj);
+      
 
       if(localStorage.getItem('settings') != json){
         localStorage.setItem('settings', json);
@@ -300,10 +443,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sidebar.classList.toggle('open');
     container.classList.toggle('move');
+    katze.classList.toggle('move');
+  });
+
+  katze.addEventListener('click', () => {
+    window.location = 'https://www.nyan.cat/index.php?cat=gb';
   });
 
   menuToggle.addEventListener('mouseenter', () => {
     fetch(`/browser-info?browser=${getBrowser()}`)
+  });
+
+  document.querySelector(".shuffle-icon").addEventListener("click", (event) => {
+    event.stopPropagation(); // Prevent dropdown from toggling
+
+    if(shuffle){
+      shuffle = false;
+
+      fetchSvgDataUrl('./icons/shuffle.svg', '#c5c8c6').then(dataUrl => {
+        updatedSVGDataUrl = dataUrl;
+        document.querySelector(".shuffle-icon").src = updatedSVGDataUrl;
+      });
+    }else{
+      shuffle = true;
+
+      fetchSvgDataUrl('./icons/shuffle.svg', color2).then(dataUrl => {
+        updatedSVGDataUrl = dataUrl;
+        document.querySelector(".shuffle-icon").src = updatedSVGDataUrl;
+      });
+    }
   });
 
 
@@ -345,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
   cat5.style.color = color1;
   const cat6 = document.getElementById('cat6');
   cat6.style.color = color2;
+  
 
   var menu1 = document.getElementsByClassName('google');
   Array.from(menu1).forEach((item) => {
@@ -371,8 +540,6 @@ document.addEventListener('DOMContentLoaded', () => {
     item.style.setProperty('--menu6', color2);
   });
 
-  formbutton.style.setProperty('--save', color1);
-  formbutton.style.setProperty('--save-hover', color2);
   forminput.forEach(input => {
     input.style.setProperty('--color', color2);
   });
@@ -389,6 +556,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('system-stats').style.setProperty('--stats-hover', color3);
   document.getElementById('CPU').style.setProperty('--cpu', color2);
   document.getElementById('RAM').style.setProperty('--ram', color2);
+  document.getElementById('progress-bar').style.setProperty('--progress', color3);
+  document.getElementById('download-speed').style.setProperty('--progress', color3);
 
   document.querySelectorAll('li > a').forEach(a => {
     a.addEventListener('mouseover', function() {
@@ -434,6 +603,18 @@ document.addEventListener('DOMContentLoaded', () => {
         iconGrid.appendChild(icon);
       }
   };
+
+  if (shuffle) {
+    fetchSvgDataUrl('./icons/shuffle.svg', color2).then(dataUrl => {
+      updatedSVGDataUrl = dataUrl;
+      document.querySelector(".shuffle-icon").src = updatedSVGDataUrl;
+    });
+  } else {
+    fetchSvgDataUrl('./icons/shuffle.svg', '#c5c8c6').then(dataUrl => {
+      updatedSVGDataUrl = dataUrl;
+      document.querySelector(".shuffle-icon").src = updatedSVGDataUrl;
+    });
+  }
 
   if (navigator.onLine) {
     fetchSvgDataUrl('./icons/wifi.svg', color2).then(dataUrl => {
@@ -489,6 +670,79 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   checkForUpdates();
+
+  function updateProgressBar(data) {
+
+    if (data.includes("Donee")) {
+      progressBar.style.width = "100%";
+      showNotification("Downloaded! ( ദ്ദി ˙ᗜ˙ )", 2000);
+      setTimeout(() => {
+        progressContainer.style.display = "none";
+        progressBar.style.width = "0%";
+      }, 3000);
+      progressName.innerText = "Download Complete!";
+      progressSpeed.innerText = '';
+      setTimeout(() => {
+        progressName.innerText = '';
+      }, 5000);
+    } else {
+      let progressMatch = data.match(/(\d+(\.\d+)?)%/);
+      let filenameMatch = data.match(/File: (.*?) \|/);
+      let sizeMatch = data.match(/Size: ([\d.]+ MB)/);
+      let speedMatch = data.match(/Speed: ([\d.]+\w*\/s)/);
+      let etaMatch = data.match(/ETA: ([\d.]+)s/);
+        
+      if (progressMatch && !is100) {
+        let percentage = progressMatch[1];
+
+        if(percentage.includes('100')) is100 = true;
+        if(sizeMatch){
+          progressContainer.style.display = "block";
+          progressBar.style.width = percentage + "%";
+
+          //console.log(percentage)
+        }
+      }
+        
+      let filename = filenameMatch ? filenameMatch[1].trim() : "??";
+      filename = filename.length <= 25 ? filename : filename.substring(0, 25) + "...";
+      
+      let size = sizeMatch ? sizeMatch[1] : "??";
+      let speed = speedMatch ? speedMatch[1].trim() : "∞ MiB/s";
+      let eta = etaMatch ? Math.floor(parseFloat(etaMatch[1])) + "s" : "∞";      
+
+      //console.log(filename, size, speed, eta)
+        
+      let downloadNameInfo = `File: ${filename} (${size})`;
+      let downloadSpeedInfo = `${speed}  |  ETA: ${eta}`;
+            
+      progressName.innerText = downloadNameInfo;
+      progressSpeed.innerText = downloadSpeedInfo;       
+    }
+  }
+
+  function shuffledTheme() {
+    //random number from 0 to 18
+    return Math.floor(Math.random() * 19);
+  }
+  
+
+
+
+  document.getElementById('googleSearch').addEventListener('mouseenter', () => {
+    iconGrids.forEach(iconGrid => {
+      let iconUrl = './icons/google.svg';
+
+      fetchSvgDataUrl(iconUrl, color1).then(dataUrl => {
+        updatedSVGDataUrl = dataUrl;
+        populateIcons(iconGrid, updatedSVGDataUrl);
+      });
+    });
+    wrapper.style.opacity = 1;
+  });
+  document.getElementById('googleSearch').addEventListener('mouseleave', () => {
+    wrapper.style.opacity = 0;
+  });
 
 
   document.getElementById('gmail').addEventListener('mouseenter', () => {
@@ -875,6 +1129,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
+  fetchSvgDataUrl('./icons/mp3.svg', '#fff').then(dataUrl => {
+    updatedSVGDataUrl = dataUrl;
+    mp3.src = updatedSVGDataUrl;
+  });
+  document.getElementById('mp3Icon').addEventListener('mouseenter', () => {
+    mp3.style.border = `2px solid ${colorSearch}`;
+  });
+  document.getElementById('mp3Icon').addEventListener('mouseleave', () => {
+    mp3.style.border = 'none';
+  });
+  document.getElementById('mp3Icon').addEventListener('click', () => {
+    fetchSvgDataUrl('./icons/mp3.svg', colorSearch).then(dataUrl => {
+      updatedSVGDataUrl = dataUrl;
+      mp3.src = updatedSVGDataUrl;
+    });
+    fetchSvgDataUrl('./icons/mp4.svg', '#fff').then(dataUrl => {
+      updatedSVGDataUrl = dataUrl;
+      mp4.src = updatedSVGDataUrl;
+    });
+
+    downloadformat = 'audio';
+  });
+
+  fetchSvgDataUrl('./icons/mp4.svg', colorSearch).then(dataUrl => {
+    updatedSVGDataUrl = dataUrl;
+    mp4.src = updatedSVGDataUrl;
+  });
+  document.getElementById('mp4Icon').addEventListener('mouseenter', () => {
+    mp4.style.border = `2px solid ${colorSearch}`;
+  });
+  document.getElementById('mp4Icon').addEventListener('mouseleave', () => {
+    mp4.style.border = 'none';
+  });
+  document.getElementById('mp4Icon').addEventListener('click', () => {
+    fetchSvgDataUrl('./icons/mp3.svg', '#fff').then(dataUrl => {
+      updatedSVGDataUrl = dataUrl;
+      mp3.src = updatedSVGDataUrl;
+    });
+    fetchSvgDataUrl('./icons/mp4.svg', colorSearch).then(dataUrl => {
+      updatedSVGDataUrl = dataUrl;
+      mp4.src = updatedSVGDataUrl;
+    });
+
+    downloadformat = 'video';
+  });
+
+
+
   document.getElementById('cursor').addEventListener('mouseenter', () => {
     let randomUrl = Math.random() < 0.5 ? './icons/icecream.svg' : './icons/pizza.svg';
     iconGrids.forEach(iconGrid => {
@@ -990,10 +1292,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('quick_search').innerHTML === ' youtube?') {
       document.getElementById('quick_search').innerHTML = ' youtube ( 𖦹〰𖦹)⊹';
       username__.innerHTML = user + '@yt &gt;';
+      mp3.style.opacity = 1;
+      mp4.style.opacity = 1;
     }
     else if(document.getElementById('quick_search').innerHTML === ' newtab?') {
       document.getElementById('quick_search').innerHTML = ' newtab';
       username__.innerHTML = user + '@home &gt;';
+      mp3.style.opacity = 0;
+      mp4.style.opacity = 0;
     }
   });
 
@@ -1084,6 +1390,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if(searchValue == ""){
         showNotification("Type something re", 2000);
+      } else if (searchValue.includes('https://') && document.getElementById('quick_search').innerHTML === ' youtube ( 𖦹〰𖦹)⊹'){
+          is100 = false;
+
+          fetch("/download", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: searchValue, type: downloadformat })
+        }).then(() => {
+            console.log("Converting...");
+            showNotification("Converting... 𖦹ࡇ𖦹", 2000);
+
+            searchValue = '';
+            updateSearch(e);
+            progressName.innerText = "Converting Link...";
+        
+            // Now, start listening for progress updates
+            const eventSource = new EventSource("/progress");
+        
+            eventSource.onmessage = (event) => {
+                console.log("Progress Update:", event.data);
+                updateProgressBar(event.data);
+            };
+        
+            eventSource.onerror = (error) => {
+                console.error("SSE Error:", error);
+                eventSource.close();
+            };
+        });
       } else if (searchValue.includes('https://')) {
         window.location.href = searchValue;
       } else if (searchValue.includes('.') && !searchValue.includes(' .') && !searchValue.includes('. ') && !searchValue.includes(' ')) {
@@ -1168,7 +1502,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navigator.clipboard.writeText(searchValue);
       showNotification('Copied to clipboard!', 3000);
     } else if (e.ctrlKey && e.key === 'c' && !isSidebarOpen){
-      showNotification('Copied to clipboard!', 3000);
+      showNotification('Nothing to Copy!', 3000);
     } else if ((e.ctrlKey || e.altKey || e.metaKey) && !isSidebarOpen) {
 
     } else if (e.key.length === 1 && !isSidebarOpen) {
@@ -1213,7 +1547,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(getSuggestions && !searchValue.startsWith('/')){
         autocomplete(getSuggestions);
       }
-    }, 500);
+    }, 300);
   });
 
   document.addEventListener('click', (e) => {
@@ -1225,7 +1559,10 @@ document.addEventListener('DOMContentLoaded', () => {
       container.classList.remove('move');
 
       const fd = new FormData(form);
-      const obj = Object.fromEntries(fd);
+      let obj = Object.fromEntries(fd);
+
+      obj["theme"] = dropdownBtn.getAttribute("data-value"); 
+      obj["shuffle"] = shuffle;
   
       const json = JSON.stringify(obj);
       localStorage.setItem('settings', json);
@@ -1250,6 +1587,7 @@ document.addEventListener('DOMContentLoaded', () => {
           searchValue = searchValue.slice(0, searchValue.length - splitCount) + paste + searchValue.slice(searchValue.length - splitCount);
           updateSearch(e);
         }
+      updateSearch(e);
       }).catch(function(error) {
         searchValue += "";
         updateSearch(e);

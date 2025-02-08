@@ -1,5 +1,5 @@
 const express = require('express');
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
@@ -60,6 +60,58 @@ app.post('/scripts', (req) => {
   
   exec(`HOME=${homeDir} bash "${absolutePath}"`);
 });
+
+let progressClients = [];
+
+app.get("/progress", (req, res) => {
+  console.log("New SSE client connected.");
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  progressClients.push(res); // Store client connection
+
+  req.on("close", () => {
+    progressClients = progressClients.filter(client => client !== res);
+  });
+});
+
+// Helper function to send updates
+function sendProgressUpdate(message) {
+  progressClients.forEach(client => client.write(`data: ${message}\n\n`));
+}
+
+// Download handler
+app.post("/download", (req, res) => {
+  const { url, type } = req.body;
+  const scriptPath = path.join(
+    path.resolve("./scripts/youtube/"),
+    type === "audio" ? "downloadAudio.py" : "downloadVideo.py"
+  );
+  const pythonProcess = spawn("python3", ["-u", scriptPath, url]);
+
+  pythonProcess.stdout.on("data", (data) => {
+    const message = data.toString().trim();
+    console.log(`Python Output: ${message}`);
+    
+    if (message.startsWith("PROGRESS:")) {
+      const progress = message.replace("PROGRESS:", "").trim();
+      sendProgressUpdate(progress); 
+    }
+  });
+
+  pythonProcess.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  pythonProcess.on("close", (code) => {
+    console.log(`Python script exited with code ${code}`);
+    sendProgressUpdate("Donee");
+  });
+
+  res.send("Download started successfully!");
+});
+
 
 
 app.get('/browser-info', (req) => {
