@@ -81,7 +81,9 @@ Enjoy your new, super cool custom homepage! 🌐
 
 ---
 
-Check the Intructions mentioned inside the .tar file 🐧
+### 🐧 Linux 
+
+Check the Intructions mentioned inside the .tar file
 
 ---
 
