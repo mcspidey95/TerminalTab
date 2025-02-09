@@ -85,7 +85,7 @@ app.post("/download", (req, res) => {
     path.resolve("./scripts/youtube/"),
     type === "audio" ? "downloadAudio.py" : "downloadVideo.py"
   );
-  const pythonProcess = spawn("python3", ["-u", scriptPath, url]);
+  const pythonProcess = spawn("python", ["-u", scriptPath, url]);
 
   pythonProcess.stdout.on("data", (data) => {
     const message = data.toString().trim();
@@ -141,10 +141,13 @@ app.get('/auto-sort', (req) => {
 app.get('/search', async (req, res) => {
   let input = req.query.q;
 
-  const response = await fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(input)}`);
-  const data = await response.json();
-
-  res.json(data);
+  try {
+    const response = await fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(input)}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.json(input);
+  }
 });
 
 

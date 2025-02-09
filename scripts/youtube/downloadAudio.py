@@ -1,9 +1,7 @@
 import os
 import sys
 import subprocess
-import yt_dlp
-from mutagen.mp3 import MP3
-from mutagen.id3 import ID3, APIC
+sys.stdout.reconfigure(encoding='utf-8')
 
 # Check for libraries
 def ensure_dependencies():
@@ -15,6 +13,9 @@ def ensure_dependencies():
 
 ensure_dependencies()
 
+import yt_dlp
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, APIC
 def progress_hook(d):
     if d['status'] == 'downloading':
         filename = d.get('filename', 'Unknown').split('/')[-1]  # Extract file name

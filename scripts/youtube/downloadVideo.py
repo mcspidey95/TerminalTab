@@ -1,7 +1,7 @@
 import os
 import sys
 import subprocess
-import yt_dlp
+sys.stdout.reconfigure(encoding='utf-8')
 
 # Check for libraries
 def ensure_dependencies():
@@ -13,6 +13,7 @@ def ensure_dependencies():
 
 ensure_dependencies()
 
+import yt_dlp
 def progress_hook(d):
     if d['status'] == 'downloading':
         filename = d.get('filename', 'Unknown').split('/')[-1]  # Extract file name

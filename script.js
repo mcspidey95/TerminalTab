@@ -1601,7 +1601,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //}
 
   async function autocomplete() {
-    if (searchValue.length) {
+    if (searchValue.length && navigator.onLine) {
       await fetch(`/search?q=${encodeURIComponent(searchValue)}`)
           .then(response => response.json())
           .then(data => {

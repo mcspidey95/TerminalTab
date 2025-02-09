@@ -144,10 +144,13 @@ app.get('/auto-sort', (req) => {
 app.get('/search', async (req, res) => {
   let input = req.query.q;
 
-  const response = await fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(input)}`);
-  const data = await response.json();
-
-  res.json(data);
+  try {
+    const response = await fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(input)}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.json(input);
+  }
 });
 
 
