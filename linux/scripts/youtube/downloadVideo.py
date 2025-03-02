@@ -31,10 +31,16 @@ def download_video(url):
     os.makedirs(output_dir, exist_ok=True)
 
     ydl_opts = {
-        'format': 'bestvideo+bestaudio/best',
-        'progress_hooks': [progress_hook],
+        'format': 'bv*[ext=mp4][vcodec^=avc1][height=1080]+ba[ext=m4a]/b[ext=mp4]',
+        'progress_hooks': [progress_hook],  
         'outtmpl': os.path.join(output_dir, "%(title)s.%(ext)s"),
-        'merge_output_format': 'mp4',  # Change file format here nigga
+        'merge_output_format': 'mp4',
+        'postprocessor_args': [
+            '-movflags', 'faststart',  # Optimizes MP4 for fast playback
+            '-c:v', 'copy',  # No video re-encoding
+            '-c:a', 'copy',  # No audio re-encoding
+            '-threads', '4',
+        ],
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:

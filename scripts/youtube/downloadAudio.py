@@ -44,6 +44,9 @@ def download_audio_with_thumbnail(url):
             {'key': 'EmbedThumbnail'},
             {'key': 'FFmpegMetadata'} 
         ],
+        'postprocessor_args': [
+            '-threads', '4'   
+        ],
         'writethumbnail': True
     }
 
