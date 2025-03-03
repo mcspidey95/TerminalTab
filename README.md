@@ -54,12 +54,11 @@ Say goodbye to boring old Google tab and hello to a new tab experience that’s 
 ### Windows
 
 0.  **PREREQUISITES**:
-    - Install Node.Js from their website: [Node.JS](https://nodejs.org/en). Don't come and complain that it doesn’t work later.. Install it now 🧑‍💻
+    - Install [Node.JS](https://nodejs.org/en) and [Python](https://apps.microsoft.com/detail/9pnrbtzxmb4z?hl=en-US&gl=US) from their websites. Don't come and complain that it doesn’t work later.. Install it now 🧑‍💻
   
-1. **Install the .EXE file**:
+1. **Run the Setup file**:
 
-    - Pick any one Setup.. based on your mood 🥰
-    - [Download](https://github.com/mcspidey95/TerminalTab/releases)
+    - [Download](https://github.com/mcspidey95/TerminalTab/releases) the setup for your Operating System. 🥰
 
 2. **Install the Extension**:
     - Open your browser and install this web extension: [New Tab Redirect](https://chromewebstore.google.com/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna). (Because your browser is useless 🍇)
