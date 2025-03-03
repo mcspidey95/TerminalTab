@@ -1327,7 +1327,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('system-stats').addEventListener("click", () => {
-    executeScript('/scripts', './scripts/taskManager/manager.sh', false);
+    executeScript('/scripts', './scripts/taskManager/manager.vbs', false);
   });
 
 
@@ -1425,34 +1425,24 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if(searchValue === '/shizuku') {
           searchValue = '';
           setTimeout(() => {
-            executeScript('/scripts', './scripts/shizuku/shizuku.sh', true);
+            executeScript('/scripts', './scripts/shizuku/shizuku.vbs', true);
         }, 500);
-      } else if(searchValue.startsWith('/t')) {
+      } else if(searchValue.startsWith('/cmd')) {
         let command = 't';
 
-        if(searchValue.length > 2){
-          command = searchValue.substring(3);
+        if(searchValue.length > 4){
+          command = searchValue.substring(5);
         }
 
         fetch(`/cmd?command=${command}`)
         setTimeout(() => {
-          executeScript('/scripts', './scripts/cmd.sh', false);
-          setTimeout(() => {
-            location.reload();
-          }, 500);
-        }, 500);
-      } else if(searchValue.startsWith('/sudo')) {
-        let command = searchValue.substring(1);
-
-        fetch(`/cmd?command=${encodeURIComponent(command)}`)
-        setTimeout(() => {
-          executeScript('/scripts', './scripts/sudo.sh', false);
+          executeScript('/scripts', './scripts/cmd.vbs', false);
           setTimeout(() => {
             location.reload();
           }, 500);
         }, 500);
       } else if(searchValue === '/sort') {
-        executeScript('/scripts', './scripts/sortDownloads/sort.sh', true);
+        executeScript('/scripts', './scripts/sortDownloads/sort.vbs', true);
       } else if(searchValue === '/autosort-off') {
         let autosort = 'off';
         fetch(`/auto-sort?toggle=${autosort}`)
@@ -1464,11 +1454,11 @@ document.addEventListener('DOMContentLoaded', () => {
         searchValue = '';
         showNotification('Autosort Enabled!', 2000);
       } else if(searchValue === '/reload') {
-        executeScript('/scripts', './scripts/reload.sh', false);
+        executeScript('/scripts', './scripts/reload.vbs', false);
       } else if(searchValue === '/clean') {
         searchValue = '';
         setTimeout(() => {
-          executeScript('/scripts', './scripts/cleaning/clear.sh', true);
+          executeScript('/scripts', './scripts/cleaning/clear.vbs', true);
         }, 500);
       } else if(searchValue === '/noZuckerberg') {
         searchValue = '';
